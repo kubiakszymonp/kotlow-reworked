@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "./Navigation.module.scss";
 
@@ -14,7 +14,9 @@ interface NavigationProps {
   withBackground?: boolean;
 }
 
-export default function Navigation({ withBackground = false }: NavigationProps) {
+export default function Navigation({
+  withBackground = false,
+}: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(
@@ -43,6 +45,8 @@ export default function Navigation({ withBackground = false }: NavigationProps) 
         { href: "/sakramenty/spowiedz", label: "Spowiedź" },
         { href: "/sakramenty/malzenstwo", label: "Małżeństwo" },
         { href: "/sakramenty/namaszczenie", label: "Namaszczenie chorych" },
+        { href: "/sakramenty/komunia", label: "Komunia święta" },
+        { href: "/sakramenty/pasy", label: "Pasy" },
       ],
     },
     {
@@ -63,16 +67,26 @@ export default function Navigation({ withBackground = false }: NavigationProps) 
   };
 
   const handleMobileDropdownToggle = (label: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
     setOpenMobileDropdown(openMobileDropdown === label ? null : label);
   };
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isMenuOpen]);
+
   return (
     <>
-                        {/* Desktop Navigation */}
-                  <nav className={`${styles.horizontalNav} ${withBackground ? styles.withBackground : ''}`}>
-                    <div className={styles.navContainer}>
+      {/* Desktop Navigation */}
+      <nav
+        className={`${styles.horizontalNav} ${
+          withBackground ? styles.withBackground : ""
+        }`}
+      >
+        <div className={styles.navContainer}>
           <ul className={styles.navList}>
             {navigationItems.map((item) => (
               <li
@@ -132,49 +146,47 @@ export default function Navigation({ withBackground = false }: NavigationProps) 
             navigationItems.map((item) => (
               <li key={item.href} className={styles.navItem}>
                 {/* Main nav item */}
-                <div className={styles.mobileItemContainer}>
-                  <span
-                    className={styles.underline}
-                    onClick={() => !item.subitems && setIsMenuOpen(false)}
-                  >
+                <div 
+                  className={styles.mobileItemContainer}
+                  onClick={item.subitems ? (e) => handleMobileDropdownToggle(item.label, e) : () => setIsMenuOpen(false)}
+                >
+                  <span className={styles.underline}>
                     {item.label}
                   </span>
 
                   {item.subitems && (
-                    <button
+                    <span
                       className={`${styles.mobileDropdownToggle} ${
                         openMobileDropdown === item.label ? styles.open : ""
                       }`}
-                      onClick={(e) => handleMobileDropdownToggle(item.label, e)}
-                      type="button"
                     >
                       ▼
-                    </button>
+                    </span>
                   )}
                 </div>
 
-                                 {/* Subitems */}
-                 {item.subitems && openMobileDropdown === item.label && (
-                   <ul className={styles.mobileDropdownList}>
-                     {item.subitems.map((subitem) => (
-                       <li
-                         key={subitem.href}
-                         className={styles.mobileDropdownItem}
-                       >
-                         <Link
-                           href={subitem.href}
-                           className={styles.mobileDropdownLink}
-                           onClick={() => {
-                             setIsMenuOpen(false);
-                             setOpenMobileDropdown(null);
-                           }}
-                         >
-                           {subitem.label}
-                         </Link>
-                       </li>
-                     ))}
-                   </ul>
-                 )}
+                {/* Subitems */}
+                {item.subitems && openMobileDropdown === item.label && (
+                  <ul className={styles.mobileDropdownList}>
+                    {item.subitems.map((subitem) => (
+                      <li
+                        key={subitem.href}
+                        className={styles.mobileDropdownItem}
+                      >
+                        <Link
+                          href={subitem.href}
+                          className={styles.mobileDropdownLink}
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            setOpenMobileDropdown(null);
+                          }}
+                        >
+                          {subitem.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
         </ul>

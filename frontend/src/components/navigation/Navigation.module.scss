@@ -207,16 +207,12 @@
   }
 
   > ul {
-    visibility: hidden;
+    position: fixed;
     width: 100%;
     list-style: none;
     padding-inline-start: 0;
+    padding-top: 100px;
     z-index: 300;
-    position: fixed;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
     transition: .25s 0s ease-in-out;
   }
 
