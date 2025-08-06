@@ -6,9 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-types": "openapi-generator-cli generate -i src/api/full_documentation.json -g typescript-fetch -o src/api/generated --skip-validate-spec"
   },
   "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.13.4",
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

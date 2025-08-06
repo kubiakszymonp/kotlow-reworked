@@ -1,4 +1,4 @@
-import Navigation from "@/components/navigation/Navigation";
+import NavigationWrapper from "@/components/navigation/NavigationWrapper";
 import VideoHero from "@/components/video-hero";
 import Footer from "@/components/footer";
 import { Metadata } from "next";
@@ -24,7 +24,7 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero Section with Video Background */}
       <header className="relative">
-        <Navigation />
+        <NavigationWrapper />
         <VideoHero />
       </header>
 
