@@ -3,12 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "./Navigation.module.scss";
-
-interface NavigationItem {
-  href: string;
-  label: string;
-  subitems?: NavigationItem[];
-}
+import { getNavigation } from "@/api/service/navigation";
+import { NavigationItemComponent } from "@/api/generated";
 
 interface NavigationProps {
   withBackground?: boolean;
@@ -22,45 +18,17 @@ export default function Navigation({
   const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(
     null
   );
+  const [navigationItems, setNavigationItems] = useState<
+    NavigationItemComponent[]
+  >([]);
 
-  const navigationItems: NavigationItem[] = [
-    { href: "/", label: "Strona główna" },
-    {
-      href: "/parafia",
-      label: "Parafia",
-      subitems: [
-        { href: "/parafia/ogloszenia", label: "Ogłoszenia" },
-        { href: "/parafia/intencje", label: "Intencje" },
-        { href: "/parafia/historia", label: "Historia" },
-        { href: "/parafia/kontakt", label: "Kontakt" },
-      ],
-    },
-    {
-      href: "/sakramenty",
-      label: "Sakramenty",
-      subitems: [
-        { href: "/sakramenty/chrzest", label: "Chrzest" },
-        { href: "/sakramenty/bierzmowanie", label: "Bierzmowanie" },
-        { href: "/sakramenty/eucharystia", label: "Eucharystia" },
-        { href: "/sakramenty/spowiedz", label: "Spowiedź" },
-        { href: "/sakramenty/malzenstwo", label: "Małżeństwo" },
-        { href: "/sakramenty/namaszczenie", label: "Namaszczenie chorych" },
-        { href: "/sakramenty/komunia", label: "Komunia święta" },
-        { href: "/sakramenty/pasy", label: "Pasy" },
-      ],
-    },
-    {
-      href: "/grupy",
-      label: "Grupy",
-      subitems: [
-        { href: "/grupy/ministranci", label: "Ministranci" },
-        { href: "/grupy/schola", label: "Schola" },
-        { href: "/grupy/roze-rozancowe", label: "Róże różańcowe" },
-        { href: "/grupy/legion-maryi", label: "Legion Maryi" },
-      ],
-    },
-    { href: "/aktualnosci", label: "Aktualności" },
-  ];
+  useEffect(() => {
+    const fetchNavigation = async () => {
+      const navigation = await getNavigation();
+      setNavigationItems(navigation.data?.items ?? []);
+    };
+    fetchNavigation();
+  }, []);
 
   const handleDropdownClose = () => {
     setOpenDropdown(null);
@@ -90,34 +58,34 @@ export default function Navigation({
           <ul className={styles.navList}>
             {navigationItems.map((item) => (
               <li
-                key={item.href}
+                key={item.link}
                 className={`${styles.navItem} ${
-                  item.subitems ? styles.hasDropdown : ""
+                  item.subItems ? styles.hasDropdown : ""
                 }`}
                 onMouseEnter={() =>
-                  item.subitems && setOpenDropdown(item.label)
+                  item.subItems && setOpenDropdown(item.name ?? "")
                 }
-                onMouseLeave={() => item.subitems && setOpenDropdown(null)}
+                onMouseLeave={() => item.subItems && setOpenDropdown(null)}
               >
-                <Link href={item.href} className={styles.underline}>
-                  {item.label}
+                <Link href={item.link ?? ""} className={styles.underline}>
+                  {item.name}
                 </Link>
 
-                {item.subitems && (
+                {item.subItems && (
                   <div
                     className={`${styles.dropdown} ${
-                      openDropdown === item.label ? styles.open : ""
+                      openDropdown === item.name ? styles.open : ""
                     }`}
                   >
                     <ul className={styles.dropdownList}>
-                      {item.subitems.map((subitem) => (
-                        <li key={subitem.href} className={styles.dropdownItem}>
+                      {item.subItems.map((subitem) => (
+                        <li key={subitem.link} className={styles.dropdownItem}>
                           <Link
-                            href={subitem.href}
+                            href={subitem.link ?? ""}
                             className={styles.dropdownLink}
                             onClick={handleDropdownClose}
                           >
-                            {subitem.label}
+                            {subitem.name}
                           </Link>
                         </li>
                       ))}
@@ -136,7 +104,10 @@ export default function Navigation({
           id="hamburger-toggle"
           type="checkbox"
           checked={isMenuOpen}
-          onChange={(e) => setIsMenuOpen(e.target.checked)}
+          onChange={(e) => {
+            console.log(e.target.checked);
+            setIsMenuOpen(e.target.checked);
+          }}
         />
         <label htmlFor="hamburger-toggle" className={styles.menu}>
           <span className={styles.hamburger}></span>
@@ -144,20 +115,22 @@ export default function Navigation({
         <ul>
           {isMenuOpen &&
             navigationItems.map((item) => (
-              <li key={item.href} className={styles.navItem}>
+              <li key={item.link} className={styles.navItem}>
                 {/* Main nav item */}
-                <div 
+                <div
                   className={styles.mobileItemContainer}
-                  onClick={item.subitems ? (e) => handleMobileDropdownToggle(item.label, e) : () => setIsMenuOpen(false)}
+                  onClick={
+                    item.subItems
+                      ? (e) => handleMobileDropdownToggle(item.name ?? "", e)
+                      : () => setIsMenuOpen(false)
+                  }
                 >
-                  <span className={styles.underline}>
-                    {item.label}
-                  </span>
+                  <span className={styles.underline}>{item.name}</span>
 
-                  {item.subitems && (
+                  {item.subItems && (
                     <span
                       className={`${styles.mobileDropdownToggle} ${
-                        openMobileDropdown === item.label ? styles.open : ""
+                        openMobileDropdown === item.name ? styles.open : ""
                       }`}
                     >
                       ▼
@@ -166,22 +139,22 @@ export default function Navigation({
                 </div>
 
                 {/* Subitems */}
-                {item.subitems && openMobileDropdown === item.label && (
+                {item.subItems && openMobileDropdown === item.name && (
                   <ul className={styles.mobileDropdownList}>
-                    {item.subitems.map((subitem) => (
+                    {item.subItems.map((subitem) => (
                       <li
-                        key={subitem.href}
+                        key={subitem.link}
                         className={styles.mobileDropdownItem}
                       >
                         <Link
-                          href={subitem.href}
+                          href={subitem.link ?? ""}
                           className={styles.mobileDropdownLink}
                           onClick={() => {
                             setIsMenuOpen(false);
                             setOpenMobileDropdown(null);
                           }}
                         >
-                          {subitem.label}
+                          {subitem.name}
                         </Link>
                       </li>
                     ))}
