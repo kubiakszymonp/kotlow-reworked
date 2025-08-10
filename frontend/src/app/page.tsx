@@ -2,6 +2,9 @@ import VideoHero from "@/components/video-hero";
 import Footer from "@/components/footer";
 import { Metadata } from "next";
 import Navigation from "@/components/navigation/Navigation";
+import { getHomepage } from "@/api/service/homepage";
+import { DynamicZone } from "@/components/dynamicZone";
+import { DynamicComponent } from "@/api/service/dynamicZone/componentTypeInterfaces";
 
 export const metadata: Metadata = {
   title: "Sanktuarium Kotłów | Parafia Rzymsko-katolicka w Kotłowie",
@@ -19,7 +22,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
+  const homepage = await getHomepage();
+
   return (
     <div className="min-h-screen">
       {/* Hero Section with Video Background */}
@@ -30,13 +35,9 @@ export default function Home() {
 
       {/* Main Content */}
       <main>
-        <section className="py-16 bg-gray-50" aria-label="Informacje o parafii">
-          <div className="container mx-auto px-4 text-center">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">
-              Witamy w Parafii Rzymsko-katolickiej w Kotłowie
-            </h1>
-          </div>
-        </section>
+        <DynamicZone
+          components={homepage.data?.components as DynamicComponent[]}
+        />
       </main>
 
       {/* Footer */}

@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800&display=swap');
+
+.container {
+  margin: 2rem 0;
+}
+
+.title {
+  font-family: 'Mulish', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #264663;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.noArticles {
+  text-align: center;
+  color: #6B7280;
+  font-family: 'Mulish', sans-serif;
+  font-size: 1.1rem;
+  padding: 2rem;
+  background: #F9FAFB;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+}
+
+.articleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.articleCard {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: #264663;
+  }
+}
+
+.cardContent {
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.articleMeta {
+  margin-bottom: 0.75rem;
+}
+
+.date {
+  font-family: 'Mulish', sans-serif;
+  font-size: 0.875rem;
+  color: #6B7280;
+  font-weight: 400;
+}
+
+.articleTitle {
+  font-family: 'Mulish', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #264663;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.3;
+  
+  @media screen and (max-width: 768px) {
+    font-size: 1.125rem;
+  }
+}
+
+.titleLink {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: #1E3A52;
+  }
+}
+
+.excerpt {
+  font-family: 'Mulish', sans-serif;
+  font-size: 0.95rem;
+  color: #6B7280;
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+  flex-grow: 1;
+  
+  @media screen and (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+}
+
+.readMore {
+  font-family: 'Mulish', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #264663;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  margin-top: auto;
+  
+  &:hover {
+    color: #1E3A52;
+    
+    .arrow {
+      transform: translateX(4px);
+    }
+  }
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+  font-size: 0.875rem;
+}

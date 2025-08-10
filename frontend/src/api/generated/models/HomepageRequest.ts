@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
-import type { FooterRequestData } from './FooterRequestData';
+import type { HomepageRequestData } from './HomepageRequestData';
 import {
-    FooterRequestDataFromJSON,
-    FooterRequestDataFromJSONTyped,
-    FooterRequestDataToJSON,
-    FooterRequestDataToJSONTyped,
-} from './FooterRequestData';
+    HomepageRequestDataFromJSON,
+    HomepageRequestDataFromJSONTyped,
+    HomepageRequestDataToJSON,
+    HomepageRequestDataToJSONTyped,
+} from './HomepageRequestData';
 
 /**
  * 
@@ -29,10 +29,10 @@ import {
 export interface HomepageRequest {
     /**
      * 
-     * @type {FooterRequestData}
+     * @type {HomepageRequestData}
      * @memberof HomepageRequest
      */
-    data: FooterRequestData;
+    data: HomepageRequestData;
 }
 
 /**
@@ -53,7 +53,7 @@ export function HomepageRequestFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'data': FooterRequestDataFromJSON(json['data']),
+        'data': HomepageRequestDataFromJSON(json['data']),
     };
 }
 
@@ -68,7 +68,7 @@ export function HomepageRequestToJSONTyped(value?: HomepageRequest | null, ignor
 
     return {
         
-        'data': FooterRequestDataToJSON(value['data']),
+        'data': HomepageRequestDataToJSON(value['data']),
     };
 }
 

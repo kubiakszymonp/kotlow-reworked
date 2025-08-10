@@ -1,23 +1,5 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
-export interface AtomicBanner extends Struct.ComponentSchema {
-  collectionName: 'components_atomic_banners';
-  info: {
-    displayName: 'banner';
-  };
-  attributes: {
-    content: Schema.Attribute.RichText &
-      Schema.Attribute.CustomField<
-        'plugin::ckeditor5.CKEditor',
-        {
-          preset: 'defaultHtml';
-        }
-      >;
-    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    linkUrl: Schema.Attribute.String;
-  };
-}
-
 export interface AtomicButton extends Struct.ComponentSchema {
   collectionName: 'components_atomic_buttons';
   info: {
@@ -51,6 +33,22 @@ export interface AtomicHeader extends Struct.ComponentSchema {
   attributes: {
     subtitle: Schema.Attribute.String;
     title: Schema.Attribute.String;
+  };
+}
+
+export interface AtomicHtmlContent extends Struct.ComponentSchema {
+  collectionName: 'components_atomic_html_contents';
+  info: {
+    displayName: 'htmlContent';
+  };
+  attributes: {
+    content: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
   };
 }
 
@@ -90,10 +88,10 @@ export interface OrganismsArticleListing extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
-      'atomic.banner': AtomicBanner;
       'atomic.button': AtomicButton;
       'atomic.card': AtomicCard;
       'atomic.header': AtomicHeader;
+      'atomic.html-content': AtomicHtmlContent;
       'navigation.item': NavigationItem;
       'navigation.sub-item': NavigationSubItem;
       'organisms.article-listing': OrganismsArticleListing;

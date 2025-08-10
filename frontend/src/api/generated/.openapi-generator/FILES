@@ -2,6 +2,7 @@ apis/ArticleApi.ts
 apis/FooterApi.ts
 apis/HomepageApi.ts
 apis/NavigationApi.ts
+apis/StaticPageApi.ts
 apis/UploadFileApi.ts
 apis/UsersPermissionsAuthApi.ts
 apis/UsersPermissionsUsersRolesApi.ts
@@ -20,6 +21,11 @@ models/ArticleRequest.ts
 models/ArticleRequestData.ts
 models/ArticleRequestDataLocalizationsInner.ts
 models/ArticleResponse.ts
+models/AtomicButtonComponent.ts
+models/AtomicCardComponent.ts
+models/AtomicCardComponentImage.ts
+models/AtomicHeaderComponent.ts
+models/AtomicHtmlContentComponent.ts
 models/AuthChangePasswordPostRequest.ts
 models/AuthForgotPasswordPost200Response.ts
 models/AuthForgotPasswordPostRequest.ts
@@ -37,7 +43,10 @@ models/FooterRequestData.ts
 models/FooterResponse.ts
 models/Homepage.ts
 models/HomepageListResponse.ts
+models/HomepageLocalizationsInner.ts
 models/HomepageRequest.ts
+models/HomepageRequestData.ts
+models/HomepageRequestDataComponentsInner.ts
 models/HomepageResponse.ts
 models/ModelError.ts
 models/Navigation.ts
@@ -48,6 +57,14 @@ models/NavigationRequest.ts
 models/NavigationRequestData.ts
 models/NavigationResponse.ts
 models/NavigationSubItemComponent.ts
+models/OrganismsArticleListingComponent.ts
+models/StaticPage.ts
+models/StaticPageListResponse.ts
+models/StaticPageLocalizationsInner.ts
+models/StaticPageRequest.ts
+models/StaticPageRequestData.ts
+models/StaticPageRequestDataComponentsInner.ts
+models/StaticPageResponse.ts
 models/UploadFile.ts
 models/UploadIdIdPostRequestFileInfo.ts
 models/UsersPermissionsPermissionsGet200Response.ts

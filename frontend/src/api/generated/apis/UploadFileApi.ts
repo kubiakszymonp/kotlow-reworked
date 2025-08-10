@@ -302,6 +302,9 @@ export class UploadFileApi extends runtime.BaseAPI {
             formParams = new URLSearchParams();
         }
 
+        if (requestParameters['fileInfo'] != null) {
+            formParams.append('fileInfo', new Blob([JSON.stringify(Array&lt;UploadFile&gt;ToJSON(requestParameters['fileInfo']))], { type: "application/json", }));
+                    }
 
         if (requestParameters['files'] != null) {
             formParams.append('files', requestParameters['files'] as any);

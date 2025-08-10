@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_atomic_html_contents",
+  "info": {
+    "displayName": "htmlContent"
+  },
+  "options": {},
+  "attributes": {
+    "content": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    }
+  },
+  "config": {}
+}

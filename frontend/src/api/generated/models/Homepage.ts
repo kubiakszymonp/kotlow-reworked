@@ -20,20 +20,20 @@ import {
     ArticleCreatedByRolesInnerUsersInnerToJSON,
     ArticleCreatedByRolesInnerUsersInnerToJSONTyped,
 } from './ArticleCreatedByRolesInnerUsersInner';
-import type { FooterLocalizationsInner } from './FooterLocalizationsInner';
+import type { HomepageLocalizationsInner } from './HomepageLocalizationsInner';
 import {
-    FooterLocalizationsInnerFromJSON,
-    FooterLocalizationsInnerFromJSONTyped,
-    FooterLocalizationsInnerToJSON,
-    FooterLocalizationsInnerToJSONTyped,
-} from './FooterLocalizationsInner';
-import type { ArticleCreatedBy } from './ArticleCreatedBy';
+    HomepageLocalizationsInnerFromJSON,
+    HomepageLocalizationsInnerFromJSONTyped,
+    HomepageLocalizationsInnerToJSON,
+    HomepageLocalizationsInnerToJSONTyped,
+} from './HomepageLocalizationsInner';
+import type { HomepageRequestDataComponentsInner } from './HomepageRequestDataComponentsInner';
 import {
-    ArticleCreatedByFromJSON,
-    ArticleCreatedByFromJSONTyped,
-    ArticleCreatedByToJSON,
-    ArticleCreatedByToJSONTyped,
-} from './ArticleCreatedBy';
+    HomepageRequestDataComponentsInnerFromJSON,
+    HomepageRequestDataComponentsInnerFromJSONTyped,
+    HomepageRequestDataComponentsInnerToJSON,
+    HomepageRequestDataComponentsInnerToJSONTyped,
+} from './HomepageRequestDataComponentsInner';
 
 /**
  * 
@@ -55,6 +55,12 @@ export interface Homepage {
     documentId?: string;
     /**
      * 
+     * @type {Array<HomepageRequestDataComponentsInner>}
+     * @memberof Homepage
+     */
+    components?: Array<HomepageRequestDataComponentsInner>;
+    /**
+     * 
      * @type {Date}
      * @memberof Homepage
      */
@@ -73,10 +79,10 @@ export interface Homepage {
     publishedAt?: Date;
     /**
      * 
-     * @type {ArticleCreatedBy}
+     * @type {ArticleCreatedByRolesInnerUsersInner}
      * @memberof Homepage
      */
-    createdBy?: ArticleCreatedBy;
+    createdBy?: ArticleCreatedByRolesInnerUsersInner;
     /**
      * 
      * @type {ArticleCreatedByRolesInnerUsersInner}
@@ -91,10 +97,10 @@ export interface Homepage {
     locale?: string;
     /**
      * 
-     * @type {Array<FooterLocalizationsInner>}
+     * @type {Array<HomepageLocalizationsInner>}
      * @memberof Homepage
      */
-    localizations?: Array<FooterLocalizationsInner>;
+    localizations?: Array<HomepageLocalizationsInner>;
 }
 
 /**
@@ -116,13 +122,14 @@ export function HomepageFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         
         'id': json['id'] == null ? undefined : json['id'],
         'documentId': json['documentId'] == null ? undefined : json['documentId'],
+        'components': json['components'] == null ? undefined : ((json['components'] as Array<any>).map(HomepageRequestDataComponentsInnerFromJSON)),
         'createdAt': json['createdAt'] == null ? undefined : (new Date(json['createdAt'])),
         'updatedAt': json['updatedAt'] == null ? undefined : (new Date(json['updatedAt'])),
         'publishedAt': json['publishedAt'] == null ? undefined : (new Date(json['publishedAt'])),
-        'createdBy': json['createdBy'] == null ? undefined : ArticleCreatedByFromJSON(json['createdBy']),
+        'createdBy': json['createdBy'] == null ? undefined : ArticleCreatedByRolesInnerUsersInnerFromJSON(json['createdBy']),
         'updatedBy': json['updatedBy'] == null ? undefined : ArticleCreatedByRolesInnerUsersInnerFromJSON(json['updatedBy']),
         'locale': json['locale'] == null ? undefined : json['locale'],
-        'localizations': json['localizations'] == null ? undefined : ((json['localizations'] as Array<any>).map(FooterLocalizationsInnerFromJSON)),
+        'localizations': json['localizations'] == null ? undefined : ((json['localizations'] as Array<any>).map(HomepageLocalizationsInnerFromJSON)),
     };
 }
 
@@ -139,13 +146,14 @@ export function HomepageToJSONTyped(value?: Homepage | null, ignoreDiscriminator
         
         'id': value['id'],
         'documentId': value['documentId'],
+        'components': value['components'] == null ? undefined : ((value['components'] as Array<any>).map(HomepageRequestDataComponentsInnerToJSON)),
         'createdAt': value['createdAt'] == null ? undefined : ((value['createdAt']).toISOString()),
         'updatedAt': value['updatedAt'] == null ? undefined : ((value['updatedAt']).toISOString()),
         'publishedAt': value['publishedAt'] == null ? undefined : ((value['publishedAt']).toISOString()),
-        'createdBy': ArticleCreatedByToJSON(value['createdBy']),
+        'createdBy': ArticleCreatedByRolesInnerUsersInnerToJSON(value['createdBy']),
         'updatedBy': ArticleCreatedByRolesInnerUsersInnerToJSON(value['updatedBy']),
         'locale': value['locale'],
-        'localizations': value['localizations'] == null ? undefined : ((value['localizations'] as Array<any>).map(FooterLocalizationsInnerToJSON)),
+        'localizations': value['localizations'] == null ? undefined : ((value['localizations'] as Array<any>).map(HomepageLocalizationsInnerToJSON)),
     };
 }
 

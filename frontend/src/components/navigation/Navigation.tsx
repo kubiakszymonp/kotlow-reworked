@@ -34,7 +34,7 @@ export default function Navigation({
     setOpenDropdown(null);
   };
 
-  const handleMobileDropdownToggle = (label: string, e: React.MouseEvent) => {
+  const handleMobileDropdownToggle = (label: string) => {
     setOpenMobileDropdown(openMobileDropdown === label ? null : label);
   };
 
@@ -58,7 +58,7 @@ export default function Navigation({
           <ul className={styles.navList}>
             {navigationItems.map((item) => (
               <li
-                key={item.link}
+                key={`${item.link}${item.name}`}
                 className={`${styles.navItem} ${
                   item.subItems ? styles.hasDropdown : ""
                 }`}
@@ -113,55 +113,54 @@ export default function Navigation({
           <span className={styles.hamburger}></span>
         </label>
         <ul>
-          {isMenuOpen &&
-            navigationItems.map((item) => (
-              <li key={item.link} className={styles.navItem}>
-                {/* Main nav item */}
-                <div
-                  className={styles.mobileItemContainer}
-                  onClick={
-                    item.subItems
-                      ? (e) => handleMobileDropdownToggle(item.name ?? "", e)
-                      : () => setIsMenuOpen(false)
-                  }
-                >
-                  <span className={styles.underline}>{item.name}</span>
+          {navigationItems.map((item) => (
+            <li key={`${item.link}${item.name}`} className={styles.navItem}>
+              {/* Main nav item */}
+              <div
+                className={styles.mobileItemContainer}
+                onClick={
+                  item.subItems
+                    ? () => handleMobileDropdownToggle(item.name ?? "")
+                    : () => setIsMenuOpen(false)
+                }
+              >
+                <span className={styles.underline}>{item.name}</span>
 
-                  {item.subItems && (
-                    <span
-                      className={`${styles.mobileDropdownToggle} ${
-                        openMobileDropdown === item.name ? styles.open : ""
-                      }`}
-                    >
-                      ▼
-                    </span>
-                  )}
-                </div>
-
-                {/* Subitems */}
-                {item.subItems && openMobileDropdown === item.name && (
-                  <ul className={styles.mobileDropdownList}>
-                    {item.subItems.map((subitem) => (
-                      <li
-                        key={subitem.link}
-                        className={styles.mobileDropdownItem}
-                      >
-                        <Link
-                          href={subitem.link ?? ""}
-                          className={styles.mobileDropdownLink}
-                          onClick={() => {
-                            setIsMenuOpen(false);
-                            setOpenMobileDropdown(null);
-                          }}
-                        >
-                          {subitem.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                {Boolean(item.subItems?.length) && (
+                  <span
+                    className={`${styles.mobileDropdownToggle} ${
+                      openMobileDropdown === item.name ? styles.open : ""
+                    }`}
+                  >
+                    ▼
+                  </span>
                 )}
-              </li>
-            ))}
+              </div>
+
+              {/* Subitems */}
+              {Boolean(item.subItems?.length) && openMobileDropdown === item.name && (
+                <ul className={styles.mobileDropdownList}>
+                  {item.subItems?.map((subitem) => (
+                    <li
+                      key={subitem.link}
+                      className={styles.mobileDropdownItem}
+                    >
+                      <Link
+                        href={subitem.link ?? ""}
+                        className={styles.mobileDropdownLink}
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          setOpenMobileDropdown(null);
+                        }}
+                      >
+                        {subitem.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
         </ul>
       </nav>
     </>

@@ -46,7 +46,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #f5f3ec;
+  --background: var(--color-gray-50);
   --foreground: #3A3A3A;
   --card: #FFFFFF;
   --card-foreground: #3A3A3A;
@@ -54,9 +54,9 @@
   --popover-foreground: #3A3A3A;
   --primary: #264B72;
   --primary-foreground: #FFFFFF;
-  --secondary: #f5f3ec;
+  --secondary: var(--color-gray-50);
   --secondary-foreground: #1C2D4A;
-  --muted: #f5f3ec;
+  --muted: var(--color-gray-50);
   --muted-foreground: #3A3A3A;
   --accent: #264B72;
   --accent-foreground: #FFFFFF;
@@ -67,7 +67,7 @@
   --chart-1: #264B72;
   --chart-2: #1C2D4A;
   --chart-3: #3A3A3A;
-  --chart-4: #f5f3ec;
+  --chart-4: var(--color-gray-50);
   --chart-5: #FFFFFF;
   --sidebar: #264B72;
   --sidebar-foreground: #FFFFFF;
@@ -89,9 +89,9 @@
   --primary: #264B72;
   --primary-foreground: #FFFFFF;
   --secondary: #1C2D4A;
-  --secondary-foreground: #f5f3ec;
+  --secondary-foreground: var(--color-gray-50);
   --muted: #1C2D4A;
-  --muted-foreground: #f5f3ec;
+  --muted-foreground: var(--color-gray-50);
   --accent: #264B72;
   --accent-foreground: #FFFFFF;
   --destructive: #dc2626;
@@ -101,7 +101,7 @@
   --chart-1: #264B72;
   --chart-2: #1C2D4A;
   --chart-3: #3A3A3A;
-  --chart-4: #f5f3ec;
+  --chart-4: var(--color-gray-50);
   --chart-5: #FFFFFF;
   --sidebar: #1C2D4A;
   --sidebar-foreground: #FFFFFF;

@@ -10,5 +10,16 @@
     "draftAndPublish": true
   },
   "pluginOptions": {},
-  "attributes": {}
+  "attributes": {
+    "components": {
+      "type": "dynamiczone",
+      "components": [
+        "atomic.header",
+        "atomic.card",
+        "atomic.button",
+        "organisms.article-listing",
+        "atomic.html-content"
+      ]
+    }
+  }
 }
