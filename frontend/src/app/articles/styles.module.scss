@@ -1,0 +1,300 @@
+.articlesListing {
+  padding: 2rem 0;
+  min-height: calc(100vh - 200px);
+  background: #f8fafc;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.articlesHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.articlesTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.articlesSubtitle {
+  font-size: 1.125rem;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.articlesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.articleCard {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.articleImage {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.articleCard:hover .image {
+  transform: scale(1.05);
+}
+
+.articleContent {
+  padding: 1.5rem;
+}
+
+.articleMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.authorAvatar {
+  width: 32px;
+  height: 32px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.authorName {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.articleDetails {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.articleTitle {
+  margin-bottom: 0.75rem;
+  
+  a {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    text-decoration: none;
+    line-height: 1.4;
+    display: block;
+    
+    &:hover {
+      color: #3b82f6;
+    }
+  }
+}
+
+.articleExcerpt {
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.articleTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.tag {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.readMoreBtn {
+  display: inline-flex;
+  align-items: center;
+  color: #3b82f6;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: #1d4ed8;
+  }
+  
+  &::after {
+    content: '→';
+    margin-left: 0.5rem;
+    transition: transform 0.2s ease;
+  }
+  
+  &:hover::after {
+    transform: translateX(4px);
+  }
+}
+
+.paginationWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+// Skeleton Loading
+.articleSkeleton {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.skeletonImage {
+  height: 240px;
+  background: linear-gradient(
+    90deg,
+    #f1f5f9 25%,
+    #e2e8f0 50%,
+    #f1f5f9 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+.skeletonContent {
+  padding: 1.5rem;
+}
+
+.skeletonLine {
+  height: 1rem;
+  background: linear-gradient(
+    90deg,
+    #f1f5f9 25%,
+    #e2e8f0 50%,
+    #f1f5f9 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+  
+  &:nth-child(2) {
+    width: 60%;
+  }
+  
+  &:nth-child(3) {
+    width: 80%;
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// Mobile Styles
+@media (max-width: 768px) {
+  .articlesListing {
+    padding: 1rem 0;
+  }
+  
+  .container {
+    padding: 0 0.75rem;
+  }
+  
+  .articlesHeader {
+    margin-bottom: 2rem;
+  }
+  
+  .articlesTitle {
+    font-size: 2rem;
+  }
+  
+  .articlesSubtitle {
+    font-size: 1rem;
+  }
+  
+  .articlesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .articleMeta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .articleDetails {
+    gap: 0.75rem;
+  }
+  
+  .articleTitle a {
+    font-size: 1.125rem;
+  }
+  
+  .paginationWrapper {
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .articlesGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .articleCard {
+    margin: 0 -0.5rem;
+  }
+  
+  .articlesTitle {
+    font-size: 1.75rem;
+  }
+}
