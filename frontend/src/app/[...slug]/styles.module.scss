@@ -1,9 +1,10 @@
 .wrapper {
   min-height: calc(100vh - 300px);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
 
   @media (max-width: 768px) {
     padding-top: 100px;
   }
-
-  padding-block: 2rem;
 }

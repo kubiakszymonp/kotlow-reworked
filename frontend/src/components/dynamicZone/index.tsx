@@ -71,7 +71,7 @@ export const DynamicZone = ({ components }: DynamicZoneProps) => {
     };
 
     return (
-      <div key={component.id || index} className="dynamic-zone-component m-4">
+      <div key={component.id || index} className="dynamic-zone-component my-8">
         <ComponentToRender {...getComponentProps()} />
       </div>
     );

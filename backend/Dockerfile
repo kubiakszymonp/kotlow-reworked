@@ -1,25 +1,17 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /opt/app
 
 # Install dependencies
-COPY package*.json ./
-RUN npm ci --only=production
+COPY package.json yarn.lock ./
+RUN yarn install
 
 # Copy source code
 COPY . .
 
 # Build the application
-RUN npm run build
-
-# Create a non-root user
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S strapi -u 1001
-
-# Change ownership of the app directory
-RUN chown -R strapi:nodejs /opt/app
-USER strapi
+RUN yarn build
 
 # Expose port
 EXPOSE 1337

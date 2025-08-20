@@ -15,10 +15,11 @@ export default async function StaticPage({
   params,
   searchParams,
 }: {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { slug } = await params;
+  const resolvedSearchParams = await searchParams;
 
   const staticPage = await getStaticPageBySlug(slug);
   const pageMatched = staticPage.data?.[0];
@@ -51,7 +52,7 @@ export default async function StaticPage({
   }
 
   const query = listingMatched.query;
-  const page = searchParams.page || 1;
+  const page = resolvedSearchParams.page || 1;
 
   const articlesResponse = await getArticlesByQuery(query, Number(page));
 

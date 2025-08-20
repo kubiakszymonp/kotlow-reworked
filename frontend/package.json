@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate-types": "openapi-generator-cli generate -i src/api/full_documentation.json -g typescript-fetch -o src/api/generated --skip-validate-spec"
+    "generate-types": "openapi-generator-cli generate -i src/api/full_documentation.json -g typescript-fetch -o src/api/generated --skip-validate-spec --additional-properties=apis=!UploadFileApi"
   },
   "dependencies": {
     "@openapitools/openapi-generator-cli": "^2.13.4",

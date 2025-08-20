@@ -9,7 +9,7 @@ interface HeaderProps {
 
 export default function Header({ title, subtitle }: HeaderProps) {
   return (
-    <div className={cx(styles.header, "container mx-auto")}>
+    <div className={cx(styles.header)}>
       {title && <h1 className={styles.title}>{title}</h1>}
       {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
     </div>

@@ -1,7 +1,5 @@
 import Navigation from "@/components/navigation/Navigation";
 import Footer from "@/components/footer";
-import { DynamicZone } from "@/components/dynamicZone";
-import { DynamicComponent } from "@/api/service/dynamicZone/componentTypeInterfaces";
 import cx from "classnames";
 import styles from "./styles.module.scss";
 import { notFound } from "next/navigation";
@@ -12,7 +10,7 @@ import HtmlContent from "@/components/atomic/html-content";
 export default async function ArticlePage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
   const article = await getArticleBySlug(slug);

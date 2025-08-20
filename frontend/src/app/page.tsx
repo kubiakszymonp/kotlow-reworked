@@ -5,6 +5,7 @@ import Navigation from "@/components/navigation/Navigation";
 import { getHomepage } from "@/api/service/homepage";
 import { DynamicZone } from "@/components/dynamicZone";
 import { DynamicComponent } from "@/api/service/dynamicZone/componentTypeInterfaces";
+import styles from "./styles.module.scss";
 
 export const metadata: Metadata = {
   title: "Sanktuarium Kotłów | Parafia Rzymsko-katolicka w Kotłowie",
@@ -34,7 +35,7 @@ export default async function Home() {
       </header>
 
       {/* Main Content */}
-      <main>
+      <main className={styles.container}>
         <DynamicZone
           components={homepage.data?.components as DynamicComponent[]}
         />
