@@ -5,6 +5,7 @@ import Link from "next/link";
 import styles from "./Navigation.module.scss";
 import { getNavigation } from "@/api/service/navigation";
 import { NavigationItemComponent } from "@/api/generated";
+import { ChevronDownIcon } from "lucide-react";
 
 interface NavigationProps {
   withBackground?: boolean;
@@ -67,9 +68,13 @@ export default function Navigation({
                 }
                 onMouseLeave={() => item.subItems && setOpenDropdown(null)}
               >
-                <Link href={item.link ?? ""} className={styles.underline}>
-                  {item.name}
-                </Link>
+                {item.subItems && item.subItems.length > 0 ? (
+                  <span className={styles.underline}>{item.name}</span>
+                ) : (
+                  <Link href={item.link ?? ""} className={styles.underline}>
+                    {item.name}
+                  </Link>
+                )}
 
                 {item.subItems && (
                   <div
@@ -116,49 +121,53 @@ export default function Navigation({
           {navigationItems.map((item) => (
             <li key={`${item.link}${item.name}`} className={styles.navItem}>
               {/* Main nav item */}
-              <div
-                className={styles.mobileItemContainer}
-                onClick={
-                  item.subItems
-                    ? () => handleMobileDropdownToggle(item.name ?? "")
-                    : () => setIsMenuOpen(false)
-                }
-              >
-                <span className={styles.underline}>{item.name}</span>
-
-                {Boolean(item.subItems?.length) && (
+              {item.subItems && item.subItems.length > 0 ? (
+                <div
+                  className={styles.mobileItemContainer}
+                  onClick={() => handleMobileDropdownToggle(item.name ?? "")}
+                >
+                  <span className={styles.underline}>{item.name}</span>
                   <span
                     className={`${styles.mobileDropdownToggle} ${
                       openMobileDropdown === item.name ? styles.open : ""
                     }`}
                   >
-                    ▼
+                    <ChevronDownIcon />
                   </span>
-                )}
-              </div>
+                </div>
+              ) : (
+                <Link
+                  href={item.link ?? ""}
+                  className={styles.mobileItemContainer}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <span className={styles.underline}>{item.name}</span>
+                </Link>
+              )}
 
               {/* Subitems */}
-              {Boolean(item.subItems?.length) && openMobileDropdown === item.name && (
-                <ul className={styles.mobileDropdownList}>
-                  {item.subItems?.map((subitem) => (
-                    <li
-                      key={subitem.link}
-                      className={styles.mobileDropdownItem}
-                    >
-                      <Link
-                        href={subitem.link ?? ""}
-                        className={styles.mobileDropdownLink}
-                        onClick={() => {
-                          setIsMenuOpen(false);
-                          setOpenMobileDropdown(null);
-                        }}
+              {Boolean(item.subItems?.length) &&
+                openMobileDropdown === item.name && (
+                  <ul className={styles.mobileDropdownList}>
+                    {item.subItems?.map((subitem) => (
+                      <li
+                        key={subitem.link}
+                        className={styles.mobileDropdownItem}
                       >
-                        {subitem.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
+                        <Link
+                          href={subitem.link ?? ""}
+                          className={styles.mobileDropdownLink}
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            setOpenMobileDropdown(null);
+                          }}
+                        >
+                          {subitem.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
             </li>
           ))}
         </ul>

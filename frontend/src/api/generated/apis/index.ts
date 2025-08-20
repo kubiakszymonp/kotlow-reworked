@@ -3,6 +3,7 @@
 export * from './ArticleApi';
 export * from './FooterApi';
 export * from './HomepageApi';
+export * from './ListingApi';
 export * from './NavigationApi';
 export * from './StaticPageApi';
 export * from './UploadFileApi';

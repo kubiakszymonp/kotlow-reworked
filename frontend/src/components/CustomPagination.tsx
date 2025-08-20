@@ -26,12 +26,19 @@ export function CustomPagination({
   showEllipsis = true,
   maxVisiblePages = 5,
 }: CustomPaginationProps) {
+  const onPageChangeFallback = (page: number) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("page", page.toString());
+    window.history.pushState({}, "", url.toString());
+    window.location.reload();
+  };
+
   const [current, setCurrent] = useState(currentPage);
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > maxPages) return;
     setCurrent(page);
-    onPageChange?.(page);
+    onPageChange?.(page) || onPageChangeFallback(page);
   };
 
   const getVisiblePages = () => {

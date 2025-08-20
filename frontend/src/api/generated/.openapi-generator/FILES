@@ -1,6 +1,7 @@
 apis/ArticleApi.ts
 apis/FooterApi.ts
 apis/HomepageApi.ts
+apis/ListingApi.ts
 apis/NavigationApi.ts
 apis/StaticPageApi.ts
 apis/UploadFileApi.ts
@@ -48,6 +49,12 @@ models/HomepageRequest.ts
 models/HomepageRequestData.ts
 models/HomepageRequestDataComponentsInner.ts
 models/HomepageResponse.ts
+models/Listing.ts
+models/ListingListResponse.ts
+models/ListingLocalizationsInner.ts
+models/ListingRequest.ts
+models/ListingRequestData.ts
+models/ListingResponse.ts
 models/ModelError.ts
 models/Navigation.ts
 models/NavigationItemComponent.ts

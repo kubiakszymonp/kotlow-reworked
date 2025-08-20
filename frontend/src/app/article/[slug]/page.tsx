@@ -5,7 +5,9 @@ import { DynamicComponent } from "@/api/service/dynamicZone/componentTypeInterfa
 import cx from "classnames";
 import styles from "./styles.module.scss";
 import { notFound } from "next/navigation";
-import { getStaticPageBySlug } from "@/api/service/static-page";
+import { getArticleBySlug } from "@/api/service/article";
+import Header from "@/components/atomic/header";
+import HtmlContent from "@/components/atomic/html-content";
 
 export default async function ArticlePage({
   params,
@@ -13,9 +15,9 @@ export default async function ArticlePage({
   params: { slug: string };
 }) {
   const { slug } = await params;
-  const staticPage = await getStaticPageBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
-  const pageMatched = staticPage.data?.[0];
+  const pageMatched = article.data?.[0];
 
   if (!pageMatched) {
     return notFound();
@@ -27,9 +29,9 @@ export default async function ArticlePage({
 
       {/* Main Content */}
       <main className={cx(styles.wrapper)}>
-        <DynamicZone
-          components={pageMatched.components as DynamicComponent[]}
-        />
+        <Header title={pageMatched.title} />
+
+        <HtmlContent content={pageMatched.content} />
       </main>
 
       {/* Footer */}
