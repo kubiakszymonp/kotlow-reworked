@@ -11,6 +11,9 @@ import { ArticlesView } from "@/components/ArticlesView";
 import { getArticlesByQuery } from "@/api/service/articles";
 import Header from "@/components/atomic/header";
 
+export const revalidate = 60;
+export const dynamic = "force-dynamic";
+
 export default async function StaticPage({
   params,
   searchParams,

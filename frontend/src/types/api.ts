@@ -1,5 +1,5 @@
 // Re-export navigation types
-export * from './navigation';
+export * from "./navigation";
 
 // Article types
 export interface Article {
@@ -89,8 +89,8 @@ export interface ApiErrorResponse {
   error: {
     message: string;
     status: number;
-    details?: any;
+    details?: unknown;
   };
 }
 
-export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse; 
+export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;

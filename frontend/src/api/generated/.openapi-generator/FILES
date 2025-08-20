@@ -4,7 +4,6 @@ apis/HomepageApi.ts
 apis/ListingApi.ts
 apis/NavigationApi.ts
 apis/StaticPageApi.ts
-apis/UploadFileApi.ts
 apis/UsersPermissionsAuthApi.ts
 apis/UsersPermissionsUsersRolesApi.ts
 apis/index.ts

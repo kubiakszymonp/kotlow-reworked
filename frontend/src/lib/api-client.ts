@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
-import { getEnvironmentConfig } from './environments';
+import { getCurrentEnvironmentConfig } from './environments';
 
 // Utility function to build query parameters using qs
 const buildQueryParams = (params: Record<string, unknown>): string => {
@@ -15,7 +15,7 @@ class ApiClient {
   private axiosInstance: AxiosInstance;
 
   constructor() {
-    const config = getEnvironmentConfig();
+    const config = getCurrentEnvironmentConfig();
     
     this.axiosInstance = axios.create({
       baseURL: config.api.baseUrl,

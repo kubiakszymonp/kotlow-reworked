@@ -7,6 +7,9 @@ import { getArticleBySlug } from "@/api/service/article";
 import Header from "@/components/atomic/header";
 import HtmlContent from "@/components/atomic/html-content";
 
+export const revalidate = 60;
+export const dynamic = "force-dynamic";
+
 export default async function ArticlePage({
   params,
 }: {

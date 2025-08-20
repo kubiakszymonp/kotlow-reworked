@@ -9,6 +9,7 @@ services:
       NODE_ENV: production
       DATABASE_HOST: backend
       DATABASE_PORT: 1337
+      NEXT_PUBLIC_API_URL: http://backend:1337/api
     networks:
       - app-network
     depends_on:
@@ -22,7 +23,7 @@ services:
     environment:
       NODE_ENV: production
       DATABASE_CLIENT: sqlite
-      DATABASE_FILENAME: ./data.db
+      DATABASE_FILENAME: ./data/data.db
     volumes:
       - ./backend/.env:/opt/app/.env
       - ./backend/public/uploads:/opt/app/public/uploads

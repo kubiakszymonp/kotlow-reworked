@@ -7,6 +7,9 @@ import { DynamicZone } from "@/components/dynamicZone";
 import { DynamicComponent } from "@/api/service/dynamicZone/componentTypeInterfaces";
 import styles from "./styles.module.scss";
 
+export const revalidate = 60;
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Sanktuarium Kotłów | Parafia Rzymsko-katolicka w Kotłowie",
   description:

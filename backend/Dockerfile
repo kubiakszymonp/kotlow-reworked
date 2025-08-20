@@ -17,4 +17,4 @@ RUN yarn build
 EXPOSE 1337
 
 # Start the application
-CMD ["npm", "start"] 
+CMD ["yarn", "start"] 
