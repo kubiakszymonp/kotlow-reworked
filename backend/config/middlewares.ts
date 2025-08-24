@@ -7,7 +7,9 @@ export default [
     config: {
       enabled: true,
       headers: '*',
-      origin: ['http://localhost:3000', 'http://frontend:3000', 'https://sanktuariumkotlow.pl']
+      origin: '*',
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
     }
   },
   'strapi::poweredBy',

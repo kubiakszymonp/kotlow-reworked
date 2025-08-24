@@ -5,16 +5,18 @@ WORKDIR /opt/app
 
 # Install dependencies
 COPY package.json yarn.lock ./
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 # Copy source code
 COPY . .
 
-# Build the application
+ENV NODE_ENV=production
+
+# Build the application (this will build the admin panel)
 RUN yarn build
 
 # Expose port
 EXPOSE 1337
 
 # Start the application
-CMD ["yarn", "start"] 
+CMD ["yarn", "develop"] 
