@@ -20,13 +20,13 @@ import {
     HomepageRequestDataComponentsInnerToJSON,
     HomepageRequestDataComponentsInnerToJSONTyped,
 } from './HomepageRequestDataComponentsInner';
-import type { ArticleRequestDataLocalizationsInner } from './ArticleRequestDataLocalizationsInner';
+import type { ArticleRequestDataThumbnail } from './ArticleRequestDataThumbnail';
 import {
-    ArticleRequestDataLocalizationsInnerFromJSON,
-    ArticleRequestDataLocalizationsInnerFromJSONTyped,
-    ArticleRequestDataLocalizationsInnerToJSON,
-    ArticleRequestDataLocalizationsInnerToJSONTyped,
-} from './ArticleRequestDataLocalizationsInner';
+    ArticleRequestDataThumbnailFromJSON,
+    ArticleRequestDataThumbnailFromJSONTyped,
+    ArticleRequestDataThumbnailToJSON,
+    ArticleRequestDataThumbnailToJSONTyped,
+} from './ArticleRequestDataThumbnail';
 
 /**
  * 
@@ -48,10 +48,10 @@ export interface HomepageRequestData {
     locale?: string;
     /**
      * 
-     * @type {Array<ArticleRequestDataLocalizationsInner>}
+     * @type {Array<ArticleRequestDataThumbnail>}
      * @memberof HomepageRequestData
      */
-    localizations?: Array<ArticleRequestDataLocalizationsInner>;
+    localizations?: Array<ArticleRequestDataThumbnail>;
 }
 
 /**
@@ -73,7 +73,7 @@ export function HomepageRequestDataFromJSONTyped(json: any, ignoreDiscriminator:
         
         'components': json['components'] == null ? undefined : ((json['components'] as Array<any>).map(HomepageRequestDataComponentsInnerFromJSON)),
         'locale': json['locale'] == null ? undefined : json['locale'],
-        'localizations': json['localizations'] == null ? undefined : ((json['localizations'] as Array<any>).map(ArticleRequestDataLocalizationsInnerFromJSON)),
+        'localizations': json['localizations'] == null ? undefined : ((json['localizations'] as Array<any>).map(ArticleRequestDataThumbnailFromJSON)),
     };
 }
 
@@ -90,7 +90,7 @@ export function HomepageRequestDataToJSONTyped(value?: HomepageRequestData | nul
         
         'components': value['components'] == null ? undefined : ((value['components'] as Array<any>).map(HomepageRequestDataComponentsInnerToJSON)),
         'locale': value['locale'],
-        'localizations': value['localizations'] == null ? undefined : ((value['localizations'] as Array<any>).map(ArticleRequestDataLocalizationsInnerToJSON)),
+        'localizations': value['localizations'] == null ? undefined : ((value['localizations'] as Array<any>).map(ArticleRequestDataThumbnailToJSON)),
     };
 }
 

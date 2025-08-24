@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ArticleCreatedByRolesInnerUsersInner } from './ArticleCreatedByRolesInnerUsersInner';
+import type { ArticleThumbnailFolderFilesInnerCreatedBy } from './ArticleThumbnailFolderFilesInnerCreatedBy';
 import {
-    ArticleCreatedByRolesInnerUsersInnerFromJSON,
-    ArticleCreatedByRolesInnerUsersInnerFromJSONTyped,
-    ArticleCreatedByRolesInnerUsersInnerToJSON,
-    ArticleCreatedByRolesInnerUsersInnerToJSONTyped,
-} from './ArticleCreatedByRolesInnerUsersInner';
-import type { ArticleCreatedBy } from './ArticleCreatedBy';
+    ArticleThumbnailFolderFilesInnerCreatedByFromJSON,
+    ArticleThumbnailFolderFilesInnerCreatedByFromJSONTyped,
+    ArticleThumbnailFolderFilesInnerCreatedByToJSON,
+    ArticleThumbnailFolderFilesInnerCreatedByToJSONTyped,
+} from './ArticleThumbnailFolderFilesInnerCreatedBy';
+import type { ArticleThumbnailRelatedInner } from './ArticleThumbnailRelatedInner';
 import {
-    ArticleCreatedByFromJSON,
-    ArticleCreatedByFromJSONTyped,
-    ArticleCreatedByToJSON,
-    ArticleCreatedByToJSONTyped,
-} from './ArticleCreatedBy';
+    ArticleThumbnailRelatedInnerFromJSON,
+    ArticleThumbnailRelatedInnerFromJSONTyped,
+    ArticleThumbnailRelatedInnerToJSON,
+    ArticleThumbnailRelatedInnerToJSONTyped,
+} from './ArticleThumbnailRelatedInner';
 import type { ListingLocalizationsInner } from './ListingLocalizationsInner';
 import {
     ListingLocalizationsInnerFromJSON,
@@ -91,16 +91,16 @@ export interface Listing {
     publishedAt?: Date;
     /**
      * 
-     * @type {ArticleCreatedBy}
+     * @type {ArticleThumbnailFolderFilesInnerCreatedBy}
      * @memberof Listing
      */
-    createdBy?: ArticleCreatedBy;
+    createdBy?: ArticleThumbnailFolderFilesInnerCreatedBy;
     /**
      * 
-     * @type {ArticleCreatedByRolesInnerUsersInner}
+     * @type {ArticleThumbnailRelatedInner}
      * @memberof Listing
      */
-    updatedBy?: ArticleCreatedByRolesInnerUsersInner;
+    updatedBy?: ArticleThumbnailRelatedInner;
     /**
      * 
      * @type {string}
@@ -140,8 +140,8 @@ export function ListingFromJSONTyped(json: any, ignoreDiscriminator: boolean): L
         'createdAt': json['createdAt'] == null ? undefined : (new Date(json['createdAt'])),
         'updatedAt': json['updatedAt'] == null ? undefined : (new Date(json['updatedAt'])),
         'publishedAt': json['publishedAt'] == null ? undefined : (new Date(json['publishedAt'])),
-        'createdBy': json['createdBy'] == null ? undefined : ArticleCreatedByFromJSON(json['createdBy']),
-        'updatedBy': json['updatedBy'] == null ? undefined : ArticleCreatedByRolesInnerUsersInnerFromJSON(json['updatedBy']),
+        'createdBy': json['createdBy'] == null ? undefined : ArticleThumbnailFolderFilesInnerCreatedByFromJSON(json['createdBy']),
+        'updatedBy': json['updatedBy'] == null ? undefined : ArticleThumbnailRelatedInnerFromJSON(json['updatedBy']),
         'locale': json['locale'] == null ? undefined : json['locale'],
         'localizations': json['localizations'] == null ? undefined : ((json['localizations'] as Array<any>).map(ListingLocalizationsInnerFromJSON)),
     };
@@ -166,8 +166,8 @@ export function ListingToJSONTyped(value?: Listing | null, ignoreDiscriminator: 
         'createdAt': value['createdAt'] == null ? undefined : ((value['createdAt']).toISOString()),
         'updatedAt': value['updatedAt'] == null ? undefined : ((value['updatedAt']).toISOString()),
         'publishedAt': value['publishedAt'] == null ? undefined : ((value['publishedAt']).toISOString()),
-        'createdBy': ArticleCreatedByToJSON(value['createdBy']),
-        'updatedBy': ArticleCreatedByRolesInnerUsersInnerToJSON(value['updatedBy']),
+        'createdBy': ArticleThumbnailFolderFilesInnerCreatedByToJSON(value['createdBy']),
+        'updatedBy': ArticleThumbnailRelatedInnerToJSON(value['updatedBy']),
         'locale': value['locale'],
         'localizations': value['localizations'] == null ? undefined : ((value['localizations'] as Array<any>).map(ListingLocalizationsInnerToJSON)),
     };

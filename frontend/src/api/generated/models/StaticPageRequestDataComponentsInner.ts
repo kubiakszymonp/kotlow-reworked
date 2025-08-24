@@ -20,6 +20,13 @@ import {
     AtomicHtmlContentComponentToJSON,
     AtomicHtmlContentComponentToJSONTyped,
 } from './AtomicHtmlContentComponent';
+import type { ArticleLocalizationsInnerThumbnail } from './ArticleLocalizationsInnerThumbnail';
+import {
+    ArticleLocalizationsInnerThumbnailFromJSON,
+    ArticleLocalizationsInnerThumbnailFromJSONTyped,
+    ArticleLocalizationsInnerThumbnailToJSON,
+    ArticleLocalizationsInnerThumbnailToJSONTyped,
+} from './ArticleLocalizationsInnerThumbnail';
 import type { AtomicButtonComponent } from './AtomicButtonComponent';
 import {
     AtomicButtonComponentFromJSON,
@@ -34,13 +41,6 @@ import {
     AtomicCardComponentToJSON,
     AtomicCardComponentToJSONTyped,
 } from './AtomicCardComponent';
-import type { AtomicCardComponentImage } from './AtomicCardComponentImage';
-import {
-    AtomicCardComponentImageFromJSON,
-    AtomicCardComponentImageFromJSONTyped,
-    AtomicCardComponentImageToJSON,
-    AtomicCardComponentImageToJSONTyped,
-} from './AtomicCardComponentImage';
 import type { AtomicHeaderComponent } from './AtomicHeaderComponent';
 import {
     AtomicHeaderComponentFromJSON,
@@ -93,10 +93,10 @@ export interface StaticPageRequestDataComponentsInner {
     shortText?: string;
     /**
      * 
-     * @type {AtomicCardComponentImage}
+     * @type {ArticleLocalizationsInnerThumbnail}
      * @memberof StaticPageRequestDataComponentsInner
      */
-    image?: AtomicCardComponentImage;
+    image?: ArticleLocalizationsInnerThumbnail;
     /**
      * 
      * @type {string}
@@ -156,7 +156,7 @@ export function StaticPageRequestDataComponentsInnerFromJSONTyped(json: any, ign
         'title': json['title'] == null ? undefined : json['title'],
         'subtitle': json['subtitle'] == null ? undefined : json['subtitle'],
         'shortText': json['shortText'] == null ? undefined : json['shortText'],
-        'image': json['image'] == null ? undefined : AtomicCardComponentImageFromJSON(json['image']),
+        'image': json['image'] == null ? undefined : ArticleLocalizationsInnerThumbnailFromJSON(json['image']),
         'linkText': json['linkText'] == null ? undefined : json['linkText'],
         'linkUrl': json['linkUrl'] == null ? undefined : json['linkUrl'],
         'text': json['text'] == null ? undefined : json['text'],
@@ -181,7 +181,7 @@ export function StaticPageRequestDataComponentsInnerToJSONTyped(value?: StaticPa
         'title': value['title'],
         'subtitle': value['subtitle'],
         'shortText': value['shortText'],
-        'image': AtomicCardComponentImageToJSON(value['image']),
+        'image': ArticleLocalizationsInnerThumbnailToJSON(value['image']),
         'linkText': value['linkText'],
         'linkUrl': value['linkUrl'],
         'text': value['text'],

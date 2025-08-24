@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { ArticleThumbnailFolderFilesInner } from './ArticleThumbnailFolderFilesInner';
+import {
+    ArticleThumbnailFolderFilesInnerFromJSON,
+    ArticleThumbnailFolderFilesInnerFromJSONTyped,
+    ArticleThumbnailFolderFilesInnerToJSON,
+    ArticleThumbnailFolderFilesInnerToJSONTyped,
+} from './ArticleThumbnailFolderFilesInner';
 import type { ArticleThumbnailRelatedInner } from './ArticleThumbnailRelatedInner';
 import {
     ArticleThumbnailRelatedInnerFromJSON,
@@ -24,77 +31,113 @@ import {
 /**
  * 
  * @export
- * @interface FooterLocalizationsInner
+ * @interface ArticleThumbnailFolder
  */
-export interface FooterLocalizationsInner {
+export interface ArticleThumbnailFolder {
     /**
      * 
      * @type {number}
-     * @memberof FooterLocalizationsInner
+     * @memberof ArticleThumbnailFolder
      */
     id?: number;
     /**
      * 
      * @type {string}
-     * @memberof FooterLocalizationsInner
+     * @memberof ArticleThumbnailFolder
      */
     documentId?: string;
     /**
      * 
+     * @type {string}
+     * @memberof ArticleThumbnailFolder
+     */
+    name?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ArticleThumbnailFolder
+     */
+    pathId?: number;
+    /**
+     * 
+     * @type {ArticleThumbnailRelatedInner}
+     * @memberof ArticleThumbnailFolder
+     */
+    parent?: ArticleThumbnailRelatedInner;
+    /**
+     * 
+     * @type {Array<ArticleThumbnailRelatedInner>}
+     * @memberof ArticleThumbnailFolder
+     */
+    children?: Array<ArticleThumbnailRelatedInner>;
+    /**
+     * 
+     * @type {Array<ArticleThumbnailFolderFilesInner>}
+     * @memberof ArticleThumbnailFolder
+     */
+    files?: Array<ArticleThumbnailFolderFilesInner>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleThumbnailFolder
+     */
+    path?: string;
+    /**
+     * 
      * @type {Date}
-     * @memberof FooterLocalizationsInner
+     * @memberof ArticleThumbnailFolder
      */
     createdAt?: Date;
     /**
      * 
      * @type {Date}
-     * @memberof FooterLocalizationsInner
+     * @memberof ArticleThumbnailFolder
      */
     updatedAt?: Date;
     /**
      * 
      * @type {Date}
-     * @memberof FooterLocalizationsInner
+     * @memberof ArticleThumbnailFolder
      */
     publishedAt?: Date;
     /**
      * 
      * @type {ArticleThumbnailRelatedInner}
-     * @memberof FooterLocalizationsInner
+     * @memberof ArticleThumbnailFolder
      */
     createdBy?: ArticleThumbnailRelatedInner;
     /**
      * 
      * @type {ArticleThumbnailRelatedInner}
-     * @memberof FooterLocalizationsInner
+     * @memberof ArticleThumbnailFolder
      */
     updatedBy?: ArticleThumbnailRelatedInner;
     /**
      * 
      * @type {string}
-     * @memberof FooterLocalizationsInner
+     * @memberof ArticleThumbnailFolder
      */
     locale?: string;
     /**
      * 
      * @type {Array<ArticleThumbnailRelatedInner>}
-     * @memberof FooterLocalizationsInner
+     * @memberof ArticleThumbnailFolder
      */
     localizations?: Array<ArticleThumbnailRelatedInner>;
 }
 
 /**
- * Check if a given object implements the FooterLocalizationsInner interface.
+ * Check if a given object implements the ArticleThumbnailFolder interface.
  */
-export function instanceOfFooterLocalizationsInner(value: object): value is FooterLocalizationsInner {
+export function instanceOfArticleThumbnailFolder(value: object): value is ArticleThumbnailFolder {
     return true;
 }
 
-export function FooterLocalizationsInnerFromJSON(json: any): FooterLocalizationsInner {
-    return FooterLocalizationsInnerFromJSONTyped(json, false);
+export function ArticleThumbnailFolderFromJSON(json: any): ArticleThumbnailFolder {
+    return ArticleThumbnailFolderFromJSONTyped(json, false);
 }
 
-export function FooterLocalizationsInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): FooterLocalizationsInner {
+export function ArticleThumbnailFolderFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArticleThumbnailFolder {
     if (json == null) {
         return json;
     }
@@ -102,6 +145,12 @@ export function FooterLocalizationsInnerFromJSONTyped(json: any, ignoreDiscrimin
         
         'id': json['id'] == null ? undefined : json['id'],
         'documentId': json['documentId'] == null ? undefined : json['documentId'],
+        'name': json['name'] == null ? undefined : json['name'],
+        'pathId': json['pathId'] == null ? undefined : json['pathId'],
+        'parent': json['parent'] == null ? undefined : ArticleThumbnailRelatedInnerFromJSON(json['parent']),
+        'children': json['children'] == null ? undefined : ((json['children'] as Array<any>).map(ArticleThumbnailRelatedInnerFromJSON)),
+        'files': json['files'] == null ? undefined : ((json['files'] as Array<any>).map(ArticleThumbnailFolderFilesInnerFromJSON)),
+        'path': json['path'] == null ? undefined : json['path'],
         'createdAt': json['createdAt'] == null ? undefined : (new Date(json['createdAt'])),
         'updatedAt': json['updatedAt'] == null ? undefined : (new Date(json['updatedAt'])),
         'publishedAt': json['publishedAt'] == null ? undefined : (new Date(json['publishedAt'])),
@@ -112,11 +161,11 @@ export function FooterLocalizationsInnerFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function FooterLocalizationsInnerToJSON(json: any): FooterLocalizationsInner {
-    return FooterLocalizationsInnerToJSONTyped(json, false);
+export function ArticleThumbnailFolderToJSON(json: any): ArticleThumbnailFolder {
+    return ArticleThumbnailFolderToJSONTyped(json, false);
 }
 
-export function FooterLocalizationsInnerToJSONTyped(value?: FooterLocalizationsInner | null, ignoreDiscriminator: boolean = false): any {
+export function ArticleThumbnailFolderToJSONTyped(value?: ArticleThumbnailFolder | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -125,6 +174,12 @@ export function FooterLocalizationsInnerToJSONTyped(value?: FooterLocalizationsI
         
         'id': value['id'],
         'documentId': value['documentId'],
+        'name': value['name'],
+        'pathId': value['pathId'],
+        'parent': ArticleThumbnailRelatedInnerToJSON(value['parent']),
+        'children': value['children'] == null ? undefined : ((value['children'] as Array<any>).map(ArticleThumbnailRelatedInnerToJSON)),
+        'files': value['files'] == null ? undefined : ((value['files'] as Array<any>).map(ArticleThumbnailFolderFilesInnerToJSON)),
+        'path': value['path'],
         'createdAt': value['createdAt'] == null ? undefined : ((value['createdAt']).toISOString()),
         'updatedAt': value['updatedAt'] == null ? undefined : ((value['updatedAt']).toISOString()),
         'publishedAt': value['publishedAt'] == null ? undefined : ((value['publishedAt']).toISOString()),

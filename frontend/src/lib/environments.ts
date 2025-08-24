@@ -8,6 +8,9 @@ export const environments = {
     cache: {
       revalidate: 60,
     },
+    media: {
+      baseUrl: process.env.NEXT_PUBLIC_MEDIA_URL || 'http://localhost:1337',
+    },
   },
   production: {
     api: {
@@ -17,6 +20,9 @@ export const environments = {
     },
     cache: {
       revalidate: 300, // 5 minutes
+    },
+    media: {
+      baseUrl: process.env.NEXT_PUBLIC_MEDIA_URL || 'https://api.sanktuariumkotlow.pl',
     },
   },
 } as const;

@@ -71,7 +71,7 @@ export const DynamicZone = ({ components }: DynamicZoneProps) => {
     };
 
     return (
-      <div key={component.id || index} className="dynamic-zone-component my-8">
+      <div key={component.id || index} className="dynamic-zone-component">
         <ComponentToRender {...getComponentProps()} />
       </div>
     );
@@ -82,7 +82,7 @@ export const DynamicZone = ({ components }: DynamicZoneProps) => {
   }
 
   return (
-    <div className="dynamic-zone py-8 px-4">
+    <div className="dynamic-zone px-2">
       {components.map((component: unknown, index: number) =>
         renderComponent(component as DynamicComponent, index)
       )}

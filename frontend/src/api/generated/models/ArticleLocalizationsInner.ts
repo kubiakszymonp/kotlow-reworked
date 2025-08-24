@@ -13,13 +13,20 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ArticleCreatedByRolesInnerUsersInner } from './ArticleCreatedByRolesInnerUsersInner';
+import type { ArticleLocalizationsInnerThumbnail } from './ArticleLocalizationsInnerThumbnail';
 import {
-    ArticleCreatedByRolesInnerUsersInnerFromJSON,
-    ArticleCreatedByRolesInnerUsersInnerFromJSONTyped,
-    ArticleCreatedByRolesInnerUsersInnerToJSON,
-    ArticleCreatedByRolesInnerUsersInnerToJSONTyped,
-} from './ArticleCreatedByRolesInnerUsersInner';
+    ArticleLocalizationsInnerThumbnailFromJSON,
+    ArticleLocalizationsInnerThumbnailFromJSONTyped,
+    ArticleLocalizationsInnerThumbnailToJSON,
+    ArticleLocalizationsInnerThumbnailToJSONTyped,
+} from './ArticleLocalizationsInnerThumbnail';
+import type { ArticleThumbnailRelatedInner } from './ArticleThumbnailRelatedInner';
+import {
+    ArticleThumbnailRelatedInnerFromJSON,
+    ArticleThumbnailRelatedInnerFromJSONTyped,
+    ArticleThumbnailRelatedInnerToJSON,
+    ArticleThumbnailRelatedInnerToJSONTyped,
+} from './ArticleThumbnailRelatedInner';
 
 /**
  * 
@@ -56,6 +63,18 @@ export interface ArticleLocalizationsInner {
      * @type {string}
      * @memberof ArticleLocalizationsInner
      */
+    articleType?: ArticleLocalizationsInnerArticleTypeEnum;
+    /**
+     * 
+     * @type {ArticleLocalizationsInnerThumbnail}
+     * @memberof ArticleLocalizationsInner
+     */
+    thumbnail?: ArticleLocalizationsInnerThumbnail;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleLocalizationsInner
+     */
     content?: string;
     /**
      * 
@@ -77,16 +96,16 @@ export interface ArticleLocalizationsInner {
     publishedAt?: Date;
     /**
      * 
-     * @type {ArticleCreatedByRolesInnerUsersInner}
+     * @type {ArticleThumbnailRelatedInner}
      * @memberof ArticleLocalizationsInner
      */
-    createdBy?: ArticleCreatedByRolesInnerUsersInner;
+    createdBy?: ArticleThumbnailRelatedInner;
     /**
      * 
-     * @type {ArticleCreatedByRolesInnerUsersInner}
+     * @type {ArticleThumbnailRelatedInner}
      * @memberof ArticleLocalizationsInner
      */
-    updatedBy?: ArticleCreatedByRolesInnerUsersInner;
+    updatedBy?: ArticleThumbnailRelatedInner;
     /**
      * 
      * @type {string}
@@ -95,11 +114,24 @@ export interface ArticleLocalizationsInner {
     locale?: string;
     /**
      * 
-     * @type {Array<ArticleCreatedByRolesInnerUsersInner>}
+     * @type {Array<ArticleThumbnailRelatedInner>}
      * @memberof ArticleLocalizationsInner
      */
-    localizations?: Array<ArticleCreatedByRolesInnerUsersInner>;
+    localizations?: Array<ArticleThumbnailRelatedInner>;
 }
+
+
+/**
+ * @export
+ */
+export const ArticleLocalizationsInnerArticleTypeEnum = {
+    OgloszeniaDuszpasterskie: 'ogloszenia_duszpasterskie',
+    IntencjeMszalne: 'intencje_mszalne',
+    Artykul: 'artykul',
+    Sakrament: 'sakrament'
+} as const;
+export type ArticleLocalizationsInnerArticleTypeEnum = typeof ArticleLocalizationsInnerArticleTypeEnum[keyof typeof ArticleLocalizationsInnerArticleTypeEnum];
+
 
 /**
  * Check if a given object implements the ArticleLocalizationsInner interface.
@@ -122,14 +154,16 @@ export function ArticleLocalizationsInnerFromJSONTyped(json: any, ignoreDiscrimi
         'documentId': json['documentId'] == null ? undefined : json['documentId'],
         'slug': json['slug'] == null ? undefined : json['slug'],
         'title': json['title'] == null ? undefined : json['title'],
+        'articleType': json['articleType'] == null ? undefined : json['articleType'],
+        'thumbnail': json['thumbnail'] == null ? undefined : ArticleLocalizationsInnerThumbnailFromJSON(json['thumbnail']),
         'content': json['content'] == null ? undefined : json['content'],
         'createdAt': json['createdAt'] == null ? undefined : (new Date(json['createdAt'])),
         'updatedAt': json['updatedAt'] == null ? undefined : (new Date(json['updatedAt'])),
         'publishedAt': json['publishedAt'] == null ? undefined : (new Date(json['publishedAt'])),
-        'createdBy': json['createdBy'] == null ? undefined : ArticleCreatedByRolesInnerUsersInnerFromJSON(json['createdBy']),
-        'updatedBy': json['updatedBy'] == null ? undefined : ArticleCreatedByRolesInnerUsersInnerFromJSON(json['updatedBy']),
+        'createdBy': json['createdBy'] == null ? undefined : ArticleThumbnailRelatedInnerFromJSON(json['createdBy']),
+        'updatedBy': json['updatedBy'] == null ? undefined : ArticleThumbnailRelatedInnerFromJSON(json['updatedBy']),
         'locale': json['locale'] == null ? undefined : json['locale'],
-        'localizations': json['localizations'] == null ? undefined : ((json['localizations'] as Array<any>).map(ArticleCreatedByRolesInnerUsersInnerFromJSON)),
+        'localizations': json['localizations'] == null ? undefined : ((json['localizations'] as Array<any>).map(ArticleThumbnailRelatedInnerFromJSON)),
     };
 }
 
@@ -148,14 +182,16 @@ export function ArticleLocalizationsInnerToJSONTyped(value?: ArticleLocalization
         'documentId': value['documentId'],
         'slug': value['slug'],
         'title': value['title'],
+        'articleType': value['articleType'],
+        'thumbnail': ArticleLocalizationsInnerThumbnailToJSON(value['thumbnail']),
         'content': value['content'],
         'createdAt': value['createdAt'] == null ? undefined : ((value['createdAt']).toISOString()),
         'updatedAt': value['updatedAt'] == null ? undefined : ((value['updatedAt']).toISOString()),
         'publishedAt': value['publishedAt'] == null ? undefined : ((value['publishedAt']).toISOString()),
-        'createdBy': ArticleCreatedByRolesInnerUsersInnerToJSON(value['createdBy']),
-        'updatedBy': ArticleCreatedByRolesInnerUsersInnerToJSON(value['updatedBy']),
+        'createdBy': ArticleThumbnailRelatedInnerToJSON(value['createdBy']),
+        'updatedBy': ArticleThumbnailRelatedInnerToJSON(value['updatedBy']),
         'locale': value['locale'],
-        'localizations': value['localizations'] == null ? undefined : ((value['localizations'] as Array<any>).map(ArticleCreatedByRolesInnerUsersInnerToJSON)),
+        'localizations': value['localizations'] == null ? undefined : ((value['localizations'] as Array<any>).map(ArticleThumbnailRelatedInnerToJSON)),
     };
 }
 

@@ -20,13 +20,13 @@ import {
     NavigationItemComponentToJSON,
     NavigationItemComponentToJSONTyped,
 } from './NavigationItemComponent';
-import type { ArticleCreatedByRolesInnerUsersInner } from './ArticleCreatedByRolesInnerUsersInner';
+import type { ArticleThumbnailFolderFilesInnerCreatedBy } from './ArticleThumbnailFolderFilesInnerCreatedBy';
 import {
-    ArticleCreatedByRolesInnerUsersInnerFromJSON,
-    ArticleCreatedByRolesInnerUsersInnerFromJSONTyped,
-    ArticleCreatedByRolesInnerUsersInnerToJSON,
-    ArticleCreatedByRolesInnerUsersInnerToJSONTyped,
-} from './ArticleCreatedByRolesInnerUsersInner';
+    ArticleThumbnailFolderFilesInnerCreatedByFromJSON,
+    ArticleThumbnailFolderFilesInnerCreatedByFromJSONTyped,
+    ArticleThumbnailFolderFilesInnerCreatedByToJSON,
+    ArticleThumbnailFolderFilesInnerCreatedByToJSONTyped,
+} from './ArticleThumbnailFolderFilesInnerCreatedBy';
 import type { NavigationLocalizationsInner } from './NavigationLocalizationsInner';
 import {
     NavigationLocalizationsInnerFromJSON,
@@ -34,13 +34,13 @@ import {
     NavigationLocalizationsInnerToJSON,
     NavigationLocalizationsInnerToJSONTyped,
 } from './NavigationLocalizationsInner';
-import type { ArticleCreatedBy } from './ArticleCreatedBy';
+import type { ArticleThumbnailRelatedInner } from './ArticleThumbnailRelatedInner';
 import {
-    ArticleCreatedByFromJSON,
-    ArticleCreatedByFromJSONTyped,
-    ArticleCreatedByToJSON,
-    ArticleCreatedByToJSONTyped,
-} from './ArticleCreatedBy';
+    ArticleThumbnailRelatedInnerFromJSON,
+    ArticleThumbnailRelatedInnerFromJSONTyped,
+    ArticleThumbnailRelatedInnerToJSON,
+    ArticleThumbnailRelatedInnerToJSONTyped,
+} from './ArticleThumbnailRelatedInner';
 
 /**
  * 
@@ -86,16 +86,16 @@ export interface Navigation {
     publishedAt?: Date;
     /**
      * 
-     * @type {ArticleCreatedBy}
+     * @type {ArticleThumbnailFolderFilesInnerCreatedBy}
      * @memberof Navigation
      */
-    createdBy?: ArticleCreatedBy;
+    createdBy?: ArticleThumbnailFolderFilesInnerCreatedBy;
     /**
      * 
-     * @type {ArticleCreatedByRolesInnerUsersInner}
+     * @type {ArticleThumbnailRelatedInner}
      * @memberof Navigation
      */
-    updatedBy?: ArticleCreatedByRolesInnerUsersInner;
+    updatedBy?: ArticleThumbnailRelatedInner;
     /**
      * 
      * @type {string}
@@ -133,8 +133,8 @@ export function NavigationFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'createdAt': json['createdAt'] == null ? undefined : (new Date(json['createdAt'])),
         'updatedAt': json['updatedAt'] == null ? undefined : (new Date(json['updatedAt'])),
         'publishedAt': json['publishedAt'] == null ? undefined : (new Date(json['publishedAt'])),
-        'createdBy': json['createdBy'] == null ? undefined : ArticleCreatedByFromJSON(json['createdBy']),
-        'updatedBy': json['updatedBy'] == null ? undefined : ArticleCreatedByRolesInnerUsersInnerFromJSON(json['updatedBy']),
+        'createdBy': json['createdBy'] == null ? undefined : ArticleThumbnailFolderFilesInnerCreatedByFromJSON(json['createdBy']),
+        'updatedBy': json['updatedBy'] == null ? undefined : ArticleThumbnailRelatedInnerFromJSON(json['updatedBy']),
         'locale': json['locale'] == null ? undefined : json['locale'],
         'localizations': json['localizations'] == null ? undefined : ((json['localizations'] as Array<any>).map(NavigationLocalizationsInnerFromJSON)),
     };
@@ -157,8 +157,8 @@ export function NavigationToJSONTyped(value?: Navigation | null, ignoreDiscrimin
         'createdAt': value['createdAt'] == null ? undefined : ((value['createdAt']).toISOString()),
         'updatedAt': value['updatedAt'] == null ? undefined : ((value['updatedAt']).toISOString()),
         'publishedAt': value['publishedAt'] == null ? undefined : ((value['publishedAt']).toISOString()),
-        'createdBy': ArticleCreatedByToJSON(value['createdBy']),
-        'updatedBy': ArticleCreatedByRolesInnerUsersInnerToJSON(value['updatedBy']),
+        'createdBy': ArticleThumbnailFolderFilesInnerCreatedByToJSON(value['createdBy']),
+        'updatedBy': ArticleThumbnailRelatedInnerToJSON(value['updatedBy']),
         'locale': value['locale'],
         'localizations': value['localizations'] == null ? undefined : ((value['localizations'] as Array<any>).map(NavigationLocalizationsInnerToJSON)),
     };

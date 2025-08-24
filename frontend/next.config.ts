@@ -6,6 +6,20 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "1337",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*",
+      },
+    ],
+  },
   // Wstrzykiwanie zmiennych środowiskowych do builda
   webpack: (config, { isServer }) => {
     if (!isServer) {

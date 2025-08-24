@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ArticleCreatedByRolesInnerUsersInner } from './ArticleCreatedByRolesInnerUsersInner';
+import type { ArticleThumbnailRelatedInner } from './ArticleThumbnailRelatedInner';
 import {
-    ArticleCreatedByRolesInnerUsersInnerFromJSON,
-    ArticleCreatedByRolesInnerUsersInnerFromJSONTyped,
-    ArticleCreatedByRolesInnerUsersInnerToJSON,
-    ArticleCreatedByRolesInnerUsersInnerToJSONTyped,
-} from './ArticleCreatedByRolesInnerUsersInner';
+    ArticleThumbnailRelatedInnerFromJSON,
+    ArticleThumbnailRelatedInnerFromJSONTyped,
+    ArticleThumbnailRelatedInnerToJSON,
+    ArticleThumbnailRelatedInnerToJSONTyped,
+} from './ArticleThumbnailRelatedInner';
 
 /**
  * 
@@ -41,10 +41,10 @@ export interface OrganismsArticleListingComponent {
     component?: OrganismsArticleListingComponentComponentEnum;
     /**
      * 
-     * @type {Array<ArticleCreatedByRolesInnerUsersInner>}
+     * @type {Array<ArticleThumbnailRelatedInner>}
      * @memberof OrganismsArticleListingComponent
      */
-    articles?: Array<ArticleCreatedByRolesInnerUsersInner>;
+    articles?: Array<ArticleThumbnailRelatedInner>;
 }
 
 
@@ -76,7 +76,7 @@ export function OrganismsArticleListingComponentFromJSONTyped(json: any, ignoreD
         
         'id': json['id'] == null ? undefined : json['id'],
         'component': json['__component'] == null ? undefined : json['__component'],
-        'articles': json['articles'] == null ? undefined : ((json['articles'] as Array<any>).map(ArticleCreatedByRolesInnerUsersInnerFromJSON)),
+        'articles': json['articles'] == null ? undefined : ((json['articles'] as Array<any>).map(ArticleThumbnailRelatedInnerFromJSON)),
     };
 }
 
@@ -93,7 +93,7 @@ export function OrganismsArticleListingComponentToJSONTyped(value?: OrganismsArt
         
         'id': value['id'],
         '__component': value['component'],
-        'articles': value['articles'] == null ? undefined : ((value['articles'] as Array<any>).map(ArticleCreatedByRolesInnerUsersInnerToJSON)),
+        'articles': value['articles'] == null ? undefined : ((value['articles'] as Array<any>).map(ArticleThumbnailRelatedInnerToJSON)),
     };
 }
 

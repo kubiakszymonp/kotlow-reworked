@@ -42,7 +42,7 @@
 }
 
 .secondary {
-  background: #E9EDDF;
+  background: var(--primary-foreground);
   color: #264663;
   
   &:hover:not(:disabled) {

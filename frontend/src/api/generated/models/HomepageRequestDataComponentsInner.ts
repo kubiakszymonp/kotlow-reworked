@@ -20,13 +20,13 @@ import {
     AtomicHtmlContentComponentToJSON,
     AtomicHtmlContentComponentToJSONTyped,
 } from './AtomicHtmlContentComponent';
-import type { ArticleCreatedByRolesInnerUsersInner } from './ArticleCreatedByRolesInnerUsersInner';
+import type { ArticleLocalizationsInnerThumbnail } from './ArticleLocalizationsInnerThumbnail';
 import {
-    ArticleCreatedByRolesInnerUsersInnerFromJSON,
-    ArticleCreatedByRolesInnerUsersInnerFromJSONTyped,
-    ArticleCreatedByRolesInnerUsersInnerToJSON,
-    ArticleCreatedByRolesInnerUsersInnerToJSONTyped,
-} from './ArticleCreatedByRolesInnerUsersInner';
+    ArticleLocalizationsInnerThumbnailFromJSON,
+    ArticleLocalizationsInnerThumbnailFromJSONTyped,
+    ArticleLocalizationsInnerThumbnailToJSON,
+    ArticleLocalizationsInnerThumbnailToJSONTyped,
+} from './ArticleLocalizationsInnerThumbnail';
 import type { AtomicButtonComponent } from './AtomicButtonComponent';
 import {
     AtomicButtonComponentFromJSON,
@@ -41,6 +41,13 @@ import {
     AtomicCardComponentToJSON,
     AtomicCardComponentToJSONTyped,
 } from './AtomicCardComponent';
+import type { ArticleThumbnailRelatedInner } from './ArticleThumbnailRelatedInner';
+import {
+    ArticleThumbnailRelatedInnerFromJSON,
+    ArticleThumbnailRelatedInnerFromJSONTyped,
+    ArticleThumbnailRelatedInnerToJSON,
+    ArticleThumbnailRelatedInnerToJSONTyped,
+} from './ArticleThumbnailRelatedInner';
 import type { OrganismsArticleListingComponent } from './OrganismsArticleListingComponent';
 import {
     OrganismsArticleListingComponentFromJSON,
@@ -48,13 +55,6 @@ import {
     OrganismsArticleListingComponentToJSON,
     OrganismsArticleListingComponentToJSONTyped,
 } from './OrganismsArticleListingComponent';
-import type { AtomicCardComponentImage } from './AtomicCardComponentImage';
-import {
-    AtomicCardComponentImageFromJSON,
-    AtomicCardComponentImageFromJSONTyped,
-    AtomicCardComponentImageToJSON,
-    AtomicCardComponentImageToJSONTyped,
-} from './AtomicCardComponentImage';
 import type { AtomicHeaderComponent } from './AtomicHeaderComponent';
 import {
     AtomicHeaderComponentFromJSON,
@@ -101,10 +101,10 @@ export interface HomepageRequestDataComponentsInner {
     shortText?: string;
     /**
      * 
-     * @type {AtomicCardComponentImage}
+     * @type {ArticleLocalizationsInnerThumbnail}
      * @memberof HomepageRequestDataComponentsInner
      */
-    image?: AtomicCardComponentImage;
+    image?: ArticleLocalizationsInnerThumbnail;
     /**
      * 
      * @type {string}
@@ -131,10 +131,10 @@ export interface HomepageRequestDataComponentsInner {
     link?: string;
     /**
      * 
-     * @type {Array<ArticleCreatedByRolesInnerUsersInner>}
+     * @type {Array<ArticleThumbnailRelatedInner>}
      * @memberof HomepageRequestDataComponentsInner
      */
-    articles?: Array<ArticleCreatedByRolesInnerUsersInner>;
+    articles?: Array<ArticleThumbnailRelatedInner>;
     /**
      * 
      * @type {string}
@@ -175,12 +175,12 @@ export function HomepageRequestDataComponentsInnerFromJSONTyped(json: any, ignor
         'title': json['title'] == null ? undefined : json['title'],
         'subtitle': json['subtitle'] == null ? undefined : json['subtitle'],
         'shortText': json['shortText'] == null ? undefined : json['shortText'],
-        'image': json['image'] == null ? undefined : AtomicCardComponentImageFromJSON(json['image']),
+        'image': json['image'] == null ? undefined : ArticleLocalizationsInnerThumbnailFromJSON(json['image']),
         'linkText': json['linkText'] == null ? undefined : json['linkText'],
         'linkUrl': json['linkUrl'] == null ? undefined : json['linkUrl'],
         'text': json['text'] == null ? undefined : json['text'],
         'link': json['link'] == null ? undefined : json['link'],
-        'articles': json['articles'] == null ? undefined : ((json['articles'] as Array<any>).map(ArticleCreatedByRolesInnerUsersInnerFromJSON)),
+        'articles': json['articles'] == null ? undefined : ((json['articles'] as Array<any>).map(ArticleThumbnailRelatedInnerFromJSON)),
         'content': json['content'] == null ? undefined : json['content'],
     };
 }
@@ -201,12 +201,12 @@ export function HomepageRequestDataComponentsInnerToJSONTyped(value?: HomepageRe
         'title': value['title'],
         'subtitle': value['subtitle'],
         'shortText': value['shortText'],
-        'image': AtomicCardComponentImageToJSON(value['image']),
+        'image': ArticleLocalizationsInnerThumbnailToJSON(value['image']),
         'linkText': value['linkText'],
         'linkUrl': value['linkUrl'],
         'text': value['text'],
         'link': value['link'],
-        'articles': value['articles'] == null ? undefined : ((value['articles'] as Array<any>).map(ArticleCreatedByRolesInnerUsersInnerToJSON)),
+        'articles': value['articles'] == null ? undefined : ((value['articles'] as Array<any>).map(ArticleThumbnailRelatedInnerToJSON)),
         'content': value['content'],
     };
 }

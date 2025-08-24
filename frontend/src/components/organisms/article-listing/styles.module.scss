@@ -31,10 +31,26 @@
 
 .articleGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
+  
+  // Ensure items don't stretch in incomplete rows
+  & > * {
+    max-width: 100%;
+  }
+
+  // Tablet Styles
+  @media screen and (max-width: 1024px) and (min-width: 769px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
 
   @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  @media screen and (max-width: 480px) {
     grid-template-columns: 1fr;
     gap: 1rem;
   }

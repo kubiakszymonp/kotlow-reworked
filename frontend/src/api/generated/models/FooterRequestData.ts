@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ArticleRequestDataLocalizationsInner } from './ArticleRequestDataLocalizationsInner';
+import type { ArticleRequestDataThumbnail } from './ArticleRequestDataThumbnail';
 import {
-    ArticleRequestDataLocalizationsInnerFromJSON,
-    ArticleRequestDataLocalizationsInnerFromJSONTyped,
-    ArticleRequestDataLocalizationsInnerToJSON,
-    ArticleRequestDataLocalizationsInnerToJSONTyped,
-} from './ArticleRequestDataLocalizationsInner';
+    ArticleRequestDataThumbnailFromJSON,
+    ArticleRequestDataThumbnailFromJSONTyped,
+    ArticleRequestDataThumbnailToJSON,
+    ArticleRequestDataThumbnailToJSONTyped,
+} from './ArticleRequestDataThumbnail';
 
 /**
  * 
@@ -35,10 +35,10 @@ export interface FooterRequestData {
     locale?: string;
     /**
      * 
-     * @type {Array<ArticleRequestDataLocalizationsInner>}
+     * @type {Array<ArticleRequestDataThumbnail>}
      * @memberof FooterRequestData
      */
-    localizations?: Array<ArticleRequestDataLocalizationsInner>;
+    localizations?: Array<ArticleRequestDataThumbnail>;
 }
 
 /**
@@ -59,7 +59,7 @@ export function FooterRequestDataFromJSONTyped(json: any, ignoreDiscriminator: b
     return {
         
         'locale': json['locale'] == null ? undefined : json['locale'],
-        'localizations': json['localizations'] == null ? undefined : ((json['localizations'] as Array<any>).map(ArticleRequestDataLocalizationsInnerFromJSON)),
+        'localizations': json['localizations'] == null ? undefined : ((json['localizations'] as Array<any>).map(ArticleRequestDataThumbnailFromJSON)),
     };
 }
 
@@ -75,7 +75,7 @@ export function FooterRequestDataToJSONTyped(value?: FooterRequestData | null, i
     return {
         
         'locale': value['locale'],
-        'localizations': value['localizations'] == null ? undefined : ((value['localizations'] as Array<any>).map(ArticleRequestDataLocalizationsInnerToJSON)),
+        'localizations': value['localizations'] == null ? undefined : ((value['localizations'] as Array<any>).map(ArticleRequestDataThumbnailToJSON)),
     };
 }
 

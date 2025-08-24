@@ -12,10 +12,31 @@
   "pluginOptions": {},
   "attributes": {
     "slug": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "unique": true
     },
     "title": {
       "type": "string"
+    },
+    "articleType": {
+      "type": "enumeration",
+      "required": true,
+      "default": "artykul",
+      "enum": [
+        "ogloszenia_duszpasterskie",
+        "intencje_mszalne",
+        "artykul",
+        "sakrament"
+      ]
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
     },
     "content": {
       "type": "customField",

@@ -384,6 +384,11 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    articleType: Schema.Attribute.Enumeration<
+      ['ogloszenia_duszpasterskie', 'intencje_mszalne', 'artykul', 'sakrament']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'artykul'>;
     content: Schema.Attribute.RichText &
       Schema.Attribute.CustomField<
         'plugin::ckeditor5.CKEditor',
@@ -401,7 +406,10 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.String;
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    thumbnail: Schema.Attribute.Media<'images' | 'files'>;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

@@ -8,6 +8,7 @@ export const getArticlesByQuery = async (
 ) => {
   const queryParams = structuredClone(query);
   queryParams.pagination.page = page;
+  queryParams.populate = "*";
   const response = await apiClient.get<ArticleListResponse>(
     "/articles",
     queryParams

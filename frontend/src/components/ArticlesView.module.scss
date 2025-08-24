@@ -31,15 +31,28 @@
 
 .articlesGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
   margin-bottom: 3rem;
+  
+  // Ensure items don't stretch in incomplete rows
+  & > * {
+    max-width: 100%;
+  }
 }
 
 .paginationWrapper {
   display: flex;
   justify-content: center;
   margin-top: 3rem;
+}
+
+// Tablet Styles
+@media (max-width: 1024px) and (min-width: 769px) {
+  .articlesGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
 }
 
 // Mobile Styles
@@ -65,8 +78,8 @@
   }
   
   .articlesGrid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
     margin-bottom: 2rem;
   }
   

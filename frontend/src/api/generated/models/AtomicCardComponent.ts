@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
-import type { AtomicCardComponentImage } from './AtomicCardComponentImage';
+import type { ArticleLocalizationsInnerThumbnail } from './ArticleLocalizationsInnerThumbnail';
 import {
-    AtomicCardComponentImageFromJSON,
-    AtomicCardComponentImageFromJSONTyped,
-    AtomicCardComponentImageToJSON,
-    AtomicCardComponentImageToJSONTyped,
-} from './AtomicCardComponentImage';
+    ArticleLocalizationsInnerThumbnailFromJSON,
+    ArticleLocalizationsInnerThumbnailFromJSONTyped,
+    ArticleLocalizationsInnerThumbnailToJSON,
+    ArticleLocalizationsInnerThumbnailToJSONTyped,
+} from './ArticleLocalizationsInnerThumbnail';
 
 /**
  * 
@@ -53,10 +53,10 @@ export interface AtomicCardComponent {
     shortText?: string;
     /**
      * 
-     * @type {AtomicCardComponentImage}
+     * @type {ArticleLocalizationsInnerThumbnail}
      * @memberof AtomicCardComponent
      */
-    image?: AtomicCardComponentImage;
+    image?: ArticleLocalizationsInnerThumbnail;
     /**
      * 
      * @type {string}
@@ -102,7 +102,7 @@ export function AtomicCardComponentFromJSONTyped(json: any, ignoreDiscriminator:
         'component': json['__component'] == null ? undefined : json['__component'],
         'title': json['title'] == null ? undefined : json['title'],
         'shortText': json['shortText'] == null ? undefined : json['shortText'],
-        'image': json['image'] == null ? undefined : AtomicCardComponentImageFromJSON(json['image']),
+        'image': json['image'] == null ? undefined : ArticleLocalizationsInnerThumbnailFromJSON(json['image']),
         'linkText': json['linkText'] == null ? undefined : json['linkText'],
         'linkUrl': json['linkUrl'] == null ? undefined : json['linkUrl'],
     };
@@ -123,7 +123,7 @@ export function AtomicCardComponentToJSONTyped(value?: AtomicCardComponent | nul
         '__component': value['component'],
         'title': value['title'],
         'shortText': value['shortText'],
-        'image': AtomicCardComponentImageToJSON(value['image']),
+        'image': ArticleLocalizationsInnerThumbnailToJSON(value['image']),
         'linkText': value['linkText'],
         'linkUrl': value['linkUrl'],
     };

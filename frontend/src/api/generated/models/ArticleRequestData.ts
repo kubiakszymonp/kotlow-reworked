@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ArticleRequestDataLocalizationsInner } from './ArticleRequestDataLocalizationsInner';
+import type { ArticleRequestDataThumbnail } from './ArticleRequestDataThumbnail';
 import {
-    ArticleRequestDataLocalizationsInnerFromJSON,
-    ArticleRequestDataLocalizationsInnerFromJSONTyped,
-    ArticleRequestDataLocalizationsInnerToJSON,
-    ArticleRequestDataLocalizationsInnerToJSONTyped,
-} from './ArticleRequestDataLocalizationsInner';
+    ArticleRequestDataThumbnailFromJSON,
+    ArticleRequestDataThumbnailFromJSONTyped,
+    ArticleRequestDataThumbnailToJSON,
+    ArticleRequestDataThumbnailToJSONTyped,
+} from './ArticleRequestDataThumbnail';
 
 /**
  * 
@@ -32,13 +32,25 @@ export interface ArticleRequestData {
      * @type {string}
      * @memberof ArticleRequestData
      */
-    slug?: string;
+    slug: string;
     /**
      * 
      * @type {string}
      * @memberof ArticleRequestData
      */
     title?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleRequestData
+     */
+    articleType: ArticleRequestDataArticleTypeEnum;
+    /**
+     * 
+     * @type {ArticleRequestDataThumbnail}
+     * @memberof ArticleRequestData
+     */
+    thumbnail?: ArticleRequestDataThumbnail;
     /**
      * 
      * @type {string}
@@ -53,16 +65,31 @@ export interface ArticleRequestData {
     locale?: string;
     /**
      * 
-     * @type {Array<ArticleRequestDataLocalizationsInner>}
+     * @type {Array<ArticleRequestDataThumbnail>}
      * @memberof ArticleRequestData
      */
-    localizations?: Array<ArticleRequestDataLocalizationsInner>;
+    localizations?: Array<ArticleRequestDataThumbnail>;
 }
+
+
+/**
+ * @export
+ */
+export const ArticleRequestDataArticleTypeEnum = {
+    OgloszeniaDuszpasterskie: 'ogloszenia_duszpasterskie',
+    IntencjeMszalne: 'intencje_mszalne',
+    Artykul: 'artykul',
+    Sakrament: 'sakrament'
+} as const;
+export type ArticleRequestDataArticleTypeEnum = typeof ArticleRequestDataArticleTypeEnum[keyof typeof ArticleRequestDataArticleTypeEnum];
+
 
 /**
  * Check if a given object implements the ArticleRequestData interface.
  */
 export function instanceOfArticleRequestData(value: object): value is ArticleRequestData {
+    if (!('slug' in value) || value['slug'] === undefined) return false;
+    if (!('articleType' in value) || value['articleType'] === undefined) return false;
     return true;
 }
 
@@ -76,11 +103,13 @@ export function ArticleRequestDataFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
-        'slug': json['slug'] == null ? undefined : json['slug'],
+        'slug': json['slug'],
         'title': json['title'] == null ? undefined : json['title'],
+        'articleType': json['articleType'],
+        'thumbnail': json['thumbnail'] == null ? undefined : ArticleRequestDataThumbnailFromJSON(json['thumbnail']),
         'content': json['content'] == null ? undefined : json['content'],
         'locale': json['locale'] == null ? undefined : json['locale'],
-        'localizations': json['localizations'] == null ? undefined : ((json['localizations'] as Array<any>).map(ArticleRequestDataLocalizationsInnerFromJSON)),
+        'localizations': json['localizations'] == null ? undefined : ((json['localizations'] as Array<any>).map(ArticleRequestDataThumbnailFromJSON)),
     };
 }
 
@@ -97,9 +126,11 @@ export function ArticleRequestDataToJSONTyped(value?: ArticleRequestData | null,
         
         'slug': value['slug'],
         'title': value['title'],
+        'articleType': value['articleType'],
+        'thumbnail': ArticleRequestDataThumbnailToJSON(value['thumbnail']),
         'content': value['content'],
         'locale': value['locale'],
-        'localizations': value['localizations'] == null ? undefined : ((value['localizations'] as Array<any>).map(ArticleRequestDataLocalizationsInnerToJSON)),
+        'localizations': value['localizations'] == null ? undefined : ((value['localizations'] as Array<any>).map(ArticleRequestDataThumbnailToJSON)),
     };
 }
 
