@@ -9,7 +9,7 @@ RUN yarn config set network-timeout 600000 && \
     yarn config set network-concurrency 1
 
 COPY package.json yarn.lock .yarnrc ./
-RUN yarn install --network-timeout 600000
+RUN yarn install --network-timeout 600000 --verbose
 
 COPY . .
 

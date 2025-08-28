@@ -10,7 +10,7 @@ RUN yarn config set network-timeout 600000 && \
 
 # Install dependencies
 COPY package.json yarn.lock .yarnrc ./
-RUN yarn install --frozen-lockfile --network-timeout 600000
+RUN yarn install --frozen-lockfile --network-timeout 600000 --verbose
 
 # Copy source code
 COPY . .
