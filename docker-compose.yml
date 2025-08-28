@@ -50,7 +50,6 @@ services:
     ports:
       - "443:443"
       - "80:80"
-      - "1338:1338"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./certs:/etc/nginx/certs:ro
