@@ -13,7 +13,7 @@ RUN yarn install --network-timeout 600000 --verbose
 
 COPY . .
 
-RUN yarn build
+RUN NODE_OPTIONS="--max_old_space_size=2048" yarn build
 
 EXPOSE 3000
 ENV PORT 3000

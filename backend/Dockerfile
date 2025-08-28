@@ -18,7 +18,7 @@ COPY . .
 ENV NODE_ENV=production
 
 # Build the application (this will build the admin panel)
-RUN yarn build
+RUN NODE_OPTIONS="--max_old_space_size=2048" yarn build
 
 # Expose port
 EXPOSE 1337
