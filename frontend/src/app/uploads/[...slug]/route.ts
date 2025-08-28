@@ -3,23 +3,28 @@ import { NextRequest, NextResponse } from 'next/server';
 const STRAPI_BASE_URL = process.env.NEXT_PUBLIC_MEDIA_URL || process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:1337';
 
 export async function GET(request: NextRequest, { params }: { params: { slug: string[] } }) {
-  return proxyToStrapiUploads(request, params.slug);
+  const resolvedParams = await params;
+  return proxyToStrapiUploads(request, resolvedParams.slug);
 }
 
 export async function POST(request: NextRequest, { params }: { params: { slug: string[] } }) {
-  return proxyToStrapiUploads(request, params.slug);
+  const resolvedParams = await params;
+  return proxyToStrapiUploads(request, resolvedParams.slug);
 }
 
 export async function PUT(request: NextRequest, { params }: { params: { slug: string[] } }) {
-  return proxyToStrapiUploads(request, params.slug);
+  const resolvedParams = await params;
+  return proxyToStrapiUploads(request, resolvedParams.slug);
 }
 
 export async function DELETE(request: NextRequest, { params }: { params: { slug: string[] } }) {
-  return proxyToStrapiUploads(request, params.slug);
+  const resolvedParams = await params;
+  return proxyToStrapiUploads(request, resolvedParams.slug);
 }
 
 export async function PATCH(request: NextRequest, { params }: { params: { slug: string[] } }) {
-  return proxyToStrapiUploads(request, params.slug);
+  const resolvedParams = await params;
+  return proxyToStrapiUploads(request, resolvedParams.slug);
 }
 
 async function proxyToStrapiUploads(request: NextRequest, slug: string[]) {
@@ -29,7 +34,7 @@ async function proxyToStrapiUploads(request: NextRequest, slug: string[]) {
     const targetUrl = `${STRAPI_BASE_URL}/uploads/${targetPath}${url.search}`;
 
     // Get request body if it exists (for upload operations)
-    let body: any;
+    let body: FormData | ArrayBuffer | undefined;
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       try {
         // For file uploads, we need to handle FormData
