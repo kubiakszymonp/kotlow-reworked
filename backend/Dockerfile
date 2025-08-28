@@ -17,11 +17,13 @@ COPY . .
 
 ENV NODE_ENV=production
 
-# Build the application (this will build the admin panel)
-RUN NODE_OPTIONS="--max_old_space_size=2048" yarn build
+# Skip build in Docker - will build on first run
+# This avoids OOM during Docker build
+ENV STRAPI_DISABLE_UPDATE_NOTIFICATION=true
+ENV STRAPI_HIDE_STARTUP_MESSAGE=true
 
 # Expose port
 EXPOSE 1337
 
-# Start the application
+# Start in development mode - Strapi will build if needed
 CMD ["yarn", "develop"] 
