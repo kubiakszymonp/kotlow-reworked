@@ -11,7 +11,7 @@ export const environments = {
   },
   production: {
     api: {
-      baseUrl: process.env.NEXT_PUBLIC_API_URL || 'https://api.sanktuariumkotlow.pl/api',
+      baseUrl: process.env.NEXT_PUBLIC_API_URL || '/api',
       timeout: 15000,
       apiToken: process.env.STRAPI_API_TOKEN,
     },
