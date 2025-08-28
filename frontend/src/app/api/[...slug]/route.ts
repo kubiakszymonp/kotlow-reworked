@@ -2,24 +2,29 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const STRAPI_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:1337';
 
-export async function GET(request: NextRequest, { params }: { params: { slug: string[] } }) {
-  return proxyToStrapi(request, params.slug);
+export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
+  const resolvedParams = await params;
+  return proxyToStrapi(request, resolvedParams.slug);
 }
 
-export async function POST(request: NextRequest, { params }: { params: { slug: string[] } }) {
-  return proxyToStrapi(request, params.slug);
+export async function POST(request: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
+  const resolvedParams = await params;
+  return proxyToStrapi(request, resolvedParams.slug);
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { slug: string[] } }) {
-  return proxyToStrapi(request, params.slug);
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
+  const resolvedParams = await params;
+  return proxyToStrapi(request, resolvedParams.slug);
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { slug: string[] } }) {
-  return proxyToStrapi(request, params.slug);
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
+  const resolvedParams = await params;
+  return proxyToStrapi(request, resolvedParams.slug);
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { slug: string[] } }) {
-  return proxyToStrapi(request, params.slug);
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
+  const resolvedParams = await params;
+  return proxyToStrapi(request, resolvedParams.slug);
 }
 
 async function proxyToStrapi(request: NextRequest, slug: string[]) {
@@ -33,7 +38,7 @@ async function proxyToStrapi(request: NextRequest, slug: string[]) {
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       try {
         body = await request.text();
-      } catch (error) {
+      } catch {
         // Body might be empty or already consumed
         body = undefined;
       }
@@ -105,6 +110,7 @@ async function proxyToStrapi(request: NextRequest, slug: string[]) {
     });
 
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Proxy error:', error);
     return NextResponse.json(
       { error: 'Proxy request failed', message: error instanceof Error ? error.message : 'Unknown error' },

@@ -2,7 +2,10 @@ version: "3.8"
 
 services:
   frontend:
-    build: ./frontend
+    build: 
+      context: ./frontend
+      args:
+        - BUILDKIT_INLINE_CACHE=1
     ports:
       - "3000:3000"
     environment:
@@ -14,9 +17,15 @@ services:
       - app-network
     depends_on:
       - backend
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
 
   backend:
-    build: ./backend
+    build: 
+      context: ./backend
+      args:
+        - BUILDKIT_INLINE_CACHE=1
     ports:
       - "1337:1337"
     env_file: ./backend/.env
@@ -32,6 +41,9 @@ services:
       - ./backend/dist:/opt/app/dist
     networks:
       - app-network
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
 
   nginx:
     image: nginx:alpine
