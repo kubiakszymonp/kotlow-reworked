@@ -1,3 +1,19 @@
+// Helper function to determine Strapi URL based on environment
+function getStrapiBaseUrl(): string {
+  // Check if we're running in Docker (backend service name exists)
+  if (process.env.DATABASE_HOST === 'backend') {
+    return 'http://backend:1337/api';
+  }
+  
+  // Check for explicit Strapi URL from environment
+  if (process.env.STRAPI_BASE_URL) {
+    return `${process.env.STRAPI_BASE_URL}/api`;
+  }
+  
+  // Default to localhost for local development
+  return 'http://localhost:1337/api';
+}
+
 export const environments = {
   development: {
     client: {
@@ -7,18 +23,8 @@ export const environments = {
     },
     server: {
       // Server-side API configuration - direct connection to Strapi
-      baseUrl: 'http://localhost:1337/api',
+      baseUrl: getStrapiBaseUrl(),
       timeout: 10000,
-      apiToken: process.env.STRAPI_API_TOKEN,
-    },
-    // Legacy support - kept for backward compatibility
-    api: {
-      baseUrl: '/api',
-      timeout: 10000,
-      apiToken: undefined,
-    },
-    strapi: {
-      baseUrl: 'http://localhost:1337',
       apiToken: process.env.STRAPI_API_TOKEN,
     },
     cache: {
@@ -33,18 +39,8 @@ export const environments = {
     },
     server: {
       // Server-side API configuration - direct connection to Strapi
-      baseUrl: process.env.STRAPI_BASE_URL || 'http://localhost:1337/api',
+      baseUrl: getStrapiBaseUrl(),
       timeout: 15000,
-      apiToken: process.env.STRAPI_API_TOKEN,
-    },
-    // Legacy support - kept for backward compatibility
-    api: {
-      baseUrl: '/api',
-      timeout: 15000,
-      apiToken: undefined,
-    },
-    strapi: {
-      baseUrl: process.env.STRAPI_BASE_URL || 'http://localhost:1337',
       apiToken: process.env.STRAPI_API_TOKEN,
     },
     cache: {

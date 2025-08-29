@@ -1,12 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getCurrentEnvironmentConfig } from '@/lib/environments';
 
-const config = getCurrentEnvironmentConfig();
-const STRAPI_BASE_URL = config.strapi.baseUrl;
+// Helper function to get Strapi base URL for proxy
+function getStrapiProxyUrl(): string {
+  // Check if we're running in Docker
+  if (process.env.DATABASE_HOST === 'backend') {
+    return 'http://backend:1337';
+  }
+  
+  // Check for explicit Strapi URL from environment  
+  if (process.env.STRAPI_BASE_URL) {
+    return process.env.STRAPI_BASE_URL;
+  }
+  
+  // Default to localhost for local development
+  return 'http://localhost:1337';
+}
+
+const STRAPI_BASE_URL = getStrapiProxyUrl();
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
   const resolvedParams = await params;
-  console.log('resolvedParams', resolvedParams);
+  if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line no-console
+    console.log('resolvedParams', resolvedParams);
+  }
   return proxyToStrapi(request, resolvedParams.slug);
 }
 
@@ -68,8 +85,8 @@ async function proxyToStrapi(request: NextRequest, slug: string[]) {
     });
 
     // Add API token if available
-    if (config.strapi.apiToken) {
-      headers['Authorization'] = `Bearer ${config.strapi.apiToken}`;
+    if (process.env.STRAPI_API_TOKEN) {
+      headers['Authorization'] = `Bearer ${process.env.STRAPI_API_TOKEN}`;
     }
 
     // Make the request to Strapi
