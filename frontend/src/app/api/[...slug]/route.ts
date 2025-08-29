@@ -96,8 +96,21 @@ async function proxyToStrapi(request: NextRequest, slug: string[]) {
       body: body,
     });
 
-    // Get response data
-    const responseData = await response.text();
+    // Get response data - handle both text and binary content
+    let responseData;
+    const contentType = response.headers.get('content-type') || '';
+    
+    if (contentType.startsWith('image/') || 
+        contentType.startsWith('video/') || 
+        contentType.startsWith('audio/') ||
+        contentType.includes('application/octet-stream') ||
+        contentType.includes('application/pdf')) {
+      // For binary content, get as ArrayBuffer and convert to Uint8Array
+      responseData = await response.arrayBuffer();
+    } else {
+      // For text content (JSON, HTML, etc.)
+      responseData = await response.text();
+    }
     
     // Prepare response headers
     const responseHeaders = new Headers();
@@ -108,7 +121,9 @@ async function proxyToStrapi(request: NextRequest, slug: string[]) {
       'cache-control',
       'etag',
       'last-modified',
-      'content-length'
+      'content-length',
+      'content-disposition',
+      'accept-ranges'
     ];
 
     headersToReturn.forEach(header => {
@@ -123,11 +138,22 @@ async function proxyToStrapi(request: NextRequest, slug: string[]) {
     responseHeaders.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     responseHeaders.set('Access-Control-Allow-Headers', 'Authorization, Content-Type, Accept');
 
-    return new NextResponse(responseData, {
-      status: response.status,
-      statusText: response.statusText,
-      headers: responseHeaders,
-    });
+    // Return appropriate response type
+    if (responseData instanceof ArrayBuffer) {
+      // For binary content
+      return new NextResponse(responseData, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: responseHeaders,
+      });
+    } else {
+      // For text content
+      return new NextResponse(responseData, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: responseHeaders,
+      });
+    }
 
   } catch (error) {
     // eslint-disable-next-line no-console
