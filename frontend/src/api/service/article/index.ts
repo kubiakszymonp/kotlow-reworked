@@ -1,5 +1,5 @@
 import { ArticleListResponse } from "@/api/generated";
-import { apiClient } from "@/lib/api-client";
+import { serverApiClient } from "@/lib/api-client";
 
 export const getArticleBySlug = async (slug: string) => {
   const queryParams = {
@@ -11,7 +11,7 @@ export const getArticleBySlug = async (slug: string) => {
     },
   };
 
-  const response = await apiClient.get<ArticleListResponse>(
+  const response = await serverApiClient.get<ArticleListResponse>(
     "/articles",
     queryParams
   );

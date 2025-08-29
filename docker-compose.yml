@@ -12,7 +12,6 @@ services:
       NODE_ENV: production
       DATABASE_HOST: backend
       DATABASE_PORT: 1337
-      NEXT_PUBLIC_API_URL: /api
     networks:
       - app-network
     depends_on:

@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
-import { getCurrentEnvironmentConfig } from './environments';
+import { getClientConfig, getServerConfig } from './environments';
 
 // Utility function to build query parameters using qs
 const buildQueryParams = (params: Record<string, unknown>): string => {
@@ -10,28 +10,27 @@ const buildQueryParams = (params: Record<string, unknown>): string => {
   });
 };
 
-// Generic API client class
-class ApiClient {
-  private axiosInstance: AxiosInstance;
+// Base API client class
+abstract class BaseApiClient {
+  protected axiosInstance: AxiosInstance;
 
-  constructor() {
-    const config = getCurrentEnvironmentConfig();
-    
+  constructor(baseURL: string, timeout: number, additionalHeaders: Record<string, string> = {}) {
     this.axiosInstance = axios.create({
-      baseURL: config.api.baseUrl,
-      timeout: config.api.timeout,
+      baseURL,
+      timeout,
       headers: {
         'Content-Type': 'application/json',
-        ...(config.api.apiToken && {
-          Authorization: `Bearer ${config.api.apiToken}`,
-        }),
+        ...additionalHeaders,
       },
     });
 
     // Request interceptor
     this.axiosInstance.interceptors.request.use(
       (config) => {
-        console.log(`Making ${config.method?.toUpperCase()} request to ${config.url}`);
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.log(`Making ${config.method?.toUpperCase()} request to ${config.url}`);
+        }
         return config;
       },
       (error) => {
@@ -43,6 +42,7 @@ class ApiClient {
     this.axiosInstance.interceptors.response.use(
       (response) => response,
       (error) => {
+        // eslint-disable-next-line no-console
         console.error('API Error:', error.response?.data || error.message);
         return Promise.reject(error);
       }
@@ -92,8 +92,43 @@ class ApiClient {
   }
 }
 
-// Export singleton instance
-export const apiClient = new ApiClient();
+// Server-side API client - communicates directly with Strapi
+class ServerApiClient extends BaseApiClient {
+  constructor() {
+    const config = getServerConfig();
+    const headers: Record<string, string> = {};
+    
+    // Add API token for server-side requests
+    if (config.apiToken) {
+      headers['Authorization'] = `Bearer ${config.apiToken}`;
+    }
+    
+    super(config.baseUrl, config.timeout, headers);
+  }
+}
+
+// Client-side API client - uses Next.js API proxy
+class ClientApiClient extends BaseApiClient {
+  constructor() {
+    const config = getClientConfig();
+    // Client-side uses the proxy route, no direct auth needed
+    super(config.baseUrl, config.timeout);
+  }
+}
+
+// Factory function to get the appropriate client based on environment
+function createApiClient(): BaseApiClient {
+  // Check if we're on the server side
+  if (typeof window === 'undefined') {
+    return new ServerApiClient();
+  }
+  return new ClientApiClient();
+}
+
+// Export singleton instances
+export const apiClient = createApiClient();
+export const serverApiClient = new ServerApiClient();
+export const clientApiClient = new ClientApiClient();
 
 // Export utility functions
 export { buildQueryParams };

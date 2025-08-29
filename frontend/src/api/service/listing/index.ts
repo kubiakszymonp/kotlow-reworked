@@ -1,5 +1,5 @@
 import { ListingListResponse } from "@/api/generated";
-import { apiClient } from "@/lib/api-client";
+import { serverApiClient } from "@/lib/api-client";
 
 export const getListingBySlug = async (slug: string) => {
   const queryParams = {
@@ -11,7 +11,7 @@ export const getListingBySlug = async (slug: string) => {
     },
   };
 
-  const response = await apiClient.get<ListingListResponse>(
+  const response = await serverApiClient.get<ListingListResponse>(
     "/listings",
     queryParams
   );

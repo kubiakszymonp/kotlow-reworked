@@ -1,7 +1,7 @@
 import {
   StaticPageListResponse,
 } from "@/api/generated";
-import { apiClient } from "@/lib/api-client";
+import { serverApiClient } from "@/lib/api-client";
 
 export const getStaticPageBySlug = async (slug: string) => {
   const queryParams = {
@@ -13,7 +13,7 @@ export const getStaticPageBySlug = async (slug: string) => {
     },
   };
 
-  const response = await apiClient.get<StaticPageListResponse>(
+  const response = await serverApiClient.get<StaticPageListResponse>(
     "/static-pages",
     queryParams
   );

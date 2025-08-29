@@ -1,5 +1,5 @@
 import { HomepageResponse } from "@/api/generated";
-import { apiClient } from "@/lib/api-client";
+import { serverApiClient } from "@/lib/api-client";
 
 export const getHomepage = async () => {
   const queryParams = {
@@ -10,7 +10,7 @@ export const getHomepage = async () => {
     },
   } as const;
 
-  const response = await apiClient.get<HomepageResponse>(
+  const response = await serverApiClient.get<HomepageResponse>(
     "/homepage",
     queryParams
   );

@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getCurrentEnvironmentConfig } from '@/lib/environments';
 
-const STRAPI_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:1337';
+const config = getCurrentEnvironmentConfig();
+const STRAPI_BASE_URL = config.strapi.baseUrl;
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
   const resolvedParams = await params;
+  console.log('resolvedParams', resolvedParams);
   return proxyToStrapi(request, resolvedParams.slug);
 }
 
@@ -65,8 +68,8 @@ async function proxyToStrapi(request: NextRequest, slug: string[]) {
     });
 
     // Add API token if available
-    if (process.env.STRAPI_API_TOKEN) {
-      headers['Authorization'] = `Bearer ${process.env.STRAPI_API_TOKEN}`;
+    if (config.strapi.apiToken) {
+      headers['Authorization'] = `Bearer ${config.strapi.apiToken}`;
     }
 
     // Make the request to Strapi
