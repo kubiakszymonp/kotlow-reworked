@@ -1,5 +1,5 @@
 import { NavigationResponse } from "@/api/generated";
-import { serverApiClient } from "@/lib/api-client";
+import { clientApiClient } from "@/lib/api-client";
 
 export const getNavigation = async () => {
   const queryParams = {
@@ -12,7 +12,7 @@ export const getNavigation = async () => {
     },
   };
 
-  const response = await serverApiClient.get<NavigationResponse>(
+  const response = await clientApiClient.get<NavigationResponse>(
     "/navigation",
     queryParams
   );
