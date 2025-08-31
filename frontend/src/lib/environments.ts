@@ -5,11 +5,6 @@ function getStrapiBaseUrl(): string {
     return 'http://backend:1337/api';
   }
   
-  // Check for explicit Strapi URL from environment
-  if (process.env.STRAPI_BASE_URL) {
-    return `${process.env.STRAPI_BASE_URL}/api`;
-  }
-  
   // Default to localhost for local development
   return 'http://localhost:1337/api';
 }

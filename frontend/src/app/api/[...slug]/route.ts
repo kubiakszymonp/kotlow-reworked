@@ -2,18 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Helper function to get Strapi base URL for proxy
 function getStrapiProxyUrl(): string {
-  // Check if we're running in Docker
-  if (process.env.DATABASE_HOST === 'backend') {
-    return 'http://backend:1337';
-  }
-  
-  // Check for explicit Strapi URL from environment  
-  if (process.env.STRAPI_BASE_URL) {
-    return process.env.STRAPI_BASE_URL;
-  }
-  
   // Default to localhost for local development
-  return 'http://localhost:1337';
+  return 'http://localhost:1337/api';
 }
 
 const STRAPI_BASE_URL = getStrapiProxyUrl();
