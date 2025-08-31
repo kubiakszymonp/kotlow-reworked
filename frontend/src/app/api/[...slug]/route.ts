@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 // Helper function to get Strapi base URL for proxy
 function getStrapiProxyUrl(): string {
   // Default to localhost for local development
-  return 'http://localhost:1337/api';
+  return 'http://127.0.0.1:1337/api';
 }
 
 const STRAPI_BASE_URL = getStrapiProxyUrl();
@@ -146,8 +146,46 @@ async function proxyToStrapi(request: NextRequest, slug: string[]) {
     }
 
   } catch (error) {
+    // Log detailed request information for debugging
     // eslint-disable-next-line no-console
-    console.error('Proxy error:', error);
+    console.error('=== PROXY ERROR DETAILS ===');
+    // eslint-disable-next-line no-console
+    console.error('Error:', error);
+    // eslint-disable-next-line no-console
+    console.error('Request URL:', request.url);
+    // eslint-disable-next-line no-console
+    console.error('Request Method:', request.method);
+    // eslint-disable-next-line no-console
+    console.error('Target URL:', `${STRAPI_BASE_URL}/${slug.join('/')}${new URL(request.url).search}`);
+    // eslint-disable-next-line no-console
+    console.error('Request Headers:', Object.fromEntries(request.headers.entries()));
+    // eslint-disable-next-line no-console
+    console.error('Slug:', slug);
+    // eslint-disable-next-line no-console
+    console.error('Query Params:', new URL(request.url).search);
+    
+    // Log request body if available (truncate if too long)
+    if (request.method !== 'GET' && request.method !== 'HEAD') {
+      try {
+        const bodyClone = request.clone();
+        const bodyText = await bodyClone.text();
+        // eslint-disable-next-line no-console
+        console.error('Request Body:', bodyText.length > 1000 ? bodyText.substring(0, 1000) + '... (truncated)' : bodyText);
+      } catch (bodyError) {
+        // eslint-disable-next-line no-console
+        console.error('Could not read request body:', bodyError);
+      }
+    }
+    
+    // eslint-disable-next-line no-console
+    console.error('Environment:', {
+      NODE_ENV: process.env.NODE_ENV,
+      STRAPI_API_TOKEN_EXISTS: !!process.env.STRAPI_API_TOKEN,
+      STRAPI_BASE_URL
+    });
+    // eslint-disable-next-line no-console
+    console.error('=== END ERROR DETAILS ===');
+    
     return NextResponse.json(
       { error: 'Proxy request failed', message: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
