@@ -5,7 +5,7 @@ function getStrapiProxyUrl(): string {
   // Default to localhost for local development
 
   if (process.env.NODE_ENV === 'production') {
-    return 'http://backend/api';
+    return 'http://backend:1337/api';
   }
   return 'http://127.0.0.1:1337/api';
 }
