@@ -1,0 +1,44 @@
+{
+  "name": "Sanktuarium Kotłów - Parafia Rzymsko-katolicka",
+  "short_name": "Parafia Kotłów",
+  "description": "Oficjalna strona Parafii Rzymsko-katolickiej w Kotłowie. Msze święte, sakramenty, ogłoszenia, intencje mszalne.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#8B4513",
+  "orientation": "portrait-primary",
+  "categories": ["religion", "church", "community"],
+  "lang": "pl",
+  "dir": "ltr",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/church.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/church.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ogłoszenia",
+      "short_name": "Ogłoszenia",
+      "description": "Aktualne ogłoszenia parafialne",
+      "url": "/ogloszenia",
+      "icons": [{ "src": "/church.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Intencje",
+      "short_name": "Intencje",
+      "description": "Intencje mszalne",
+      "url": "intencje",
+      "icons": [{ "src": "/church.png", "sizes": "96x96" }]
+    }
+  ]
+}

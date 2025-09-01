@@ -1,0 +1,29 @@
+# Robots.txt for Sanktuarium Kotłów
+User-agent: *
+Allow: /
+Disallow: /private/
+Disallow: /admin/
+Disallow: /api/
+Disallow: /uploads/private/
+Crawl-delay: 1
+
+User-agent: Googlebot
+Allow: /
+Disallow: /private/
+Disallow: /admin/
+Disallow: /api/
+Disallow: /uploads/private/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /private/
+Disallow: /admin/
+Disallow: /api/
+Disallow: /uploads/private/
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: http://sanktuariumkotlow.pl/sitemap.xml
+
+# Host directive
+Host: http://sanktuariumkotlow.pl
