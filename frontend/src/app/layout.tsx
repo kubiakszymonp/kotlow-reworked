@@ -68,11 +68,6 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: 'google-site-verification-code-here', // Replace with actual verification code from Google Search Console
-    yandex: 'yandex-verification-code-here', // Replace with actual verification code from Yandex
-    bing: 'msvalidate.01-bing-verification-code-here', // Replace with actual verification code from Bing
-  },
   category: 'religion',
 };
 
