@@ -1,20 +1,18 @@
 import { NavigationResponse } from "@/api/generated";
-import { clientApiClient } from "@/lib/api-client";
+import { strapiFetch } from "@/lib/strapi";
 
 export const getNavigation = async () => {
-  const queryParams = {
-    populate: {
-      items: {
-        populate: {
-          subItems: "*",
+  return strapiFetch<NavigationResponse>(
+    "/navigation",
+    {
+      populate: {
+        items: {
+          populate: {
+            subItems: "*",
+          },
         },
       },
     },
-  };
-
-  const response = await clientApiClient.get<NavigationResponse>(
-    "/navigation",
-    queryParams
+    { revalidate: 300, tags: ["navigation"] }
   );
-  return response.data;
 };

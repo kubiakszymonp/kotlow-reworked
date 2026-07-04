@@ -1,7 +1,3 @@
-import React from "react";
-import styles from "./styles.module.scss";
-import { cx } from "class-variance-authority";
-
 interface HtmlContentProps {
   content?: string;
 }
@@ -12,11 +8,9 @@ export default function HtmlContent({ content }: HtmlContentProps) {
   }
 
   return (
-    <div className="container mx-auto">
-      <div
-        className={cx(styles.htmlContent)}
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
-    </div>
+    <div
+      className="prose-parish mx-auto max-w-3xl"
+      dangerouslySetInnerHTML={{ __html: content }}
+    />
   );
 }

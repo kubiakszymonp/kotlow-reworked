@@ -1,53 +1,45 @@
-import { CustomPagination } from "@/components/CustomPagination";
-import { ArticleCard } from "@/components/ArticleCard";
-import { ArticleSkeleton } from "@/components/ArticleSkeleton";
-import styles from "./ArticlesView.module.scss";
 import { Article } from "@/api/generated";
+import { ArticleCard } from "@/components/ArticleCard";
+import { Pagination } from "@/components/Pagination";
 
 interface ArticlesViewProps {
   articles: Article[];
   totalPages: number;
   currentPage: number;
-  loading: boolean;
-  onPageChange?: (page: number) => void;
+  basePath: string;
 }
 
 export function ArticlesView({
   articles,
   totalPages,
   currentPage,
-  loading,
+  basePath,
 }: ArticlesViewProps) {
-  return (
-    <main className={styles.articlesListing}>
-      <div className={styles.container}>
-        {/* Articles Grid */}
-        {loading ? (
-          <div className={styles.articlesGrid}>
-            {Array.from({ length: 6 }).map((_, index) => (
-              <ArticleSkeleton key={index} />
-            ))}
-          </div>
-        ) : (
-          <>
-            <div className={styles.articlesGrid}>
-              {articles.map((article) => (
-                <ArticleCard key={article.id} article={article} />
-              ))}
-            </div>
+  if (!articles.length) {
+    return (
+      <p className="py-16 text-center text-lg text-muted-foreground">
+        Brak wpisów do wyświetlenia.
+      </p>
+    );
+  }
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className={styles.paginationWrapper}>
-                <CustomPagination
-                  maxPages={totalPages}
-                  currentPage={currentPage}
-                />
-              </div>
-            )}
-          </>
-        )}
+  return (
+    <div>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {articles.map((article) => (
+          <ArticleCard key={article.id} article={article} />
+        ))}
       </div>
-    </main>
+
+      {totalPages > 1 && (
+        <div className="mt-12">
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            basePath={basePath}
+          />
+        </div>
+      )}
+    </div>
   );
 }

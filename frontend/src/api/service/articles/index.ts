@@ -1,5 +1,5 @@
 import { ArticleListResponse } from "@/api/generated";
-import { serverApiClient } from "@/lib/api-client";
+import { strapiFetch } from "@/lib/strapi";
 
 export const getArticlesByQuery = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -7,11 +7,42 @@ export const getArticlesByQuery = async (
   page: number
 ) => {
   const queryParams = structuredClone(query);
+  queryParams.pagination = queryParams.pagination ?? {};
   queryParams.pagination.page = page;
   queryParams.populate = "*";
-  const response = await serverApiClient.get<ArticleListResponse>(
+  return strapiFetch<ArticleListResponse>("/articles", queryParams, {
+    tags: ["articles"],
+  });
+};
+
+export const getLatestArticlesByType = async (
+  articleType: string,
+  limit = 3
+) => {
+  return strapiFetch<ArticleListResponse>(
     "/articles",
-    queryParams
+    {
+      populate: "*",
+      filters: {
+        articleType: {
+          $eq: articleType,
+        },
+      },
+      sort: ["createdAt:desc"],
+      pagination: { pageSize: limit },
+    },
+    { revalidate: 60, tags: ["articles"] }
   );
-  return response.data;
+};
+
+export const getAllArticleSlugs = async () => {
+  return strapiFetch<ArticleListResponse>(
+    "/articles",
+    {
+      fields: ["slug", "updatedAt"],
+      sort: ["createdAt:desc"],
+      pagination: { pageSize: 200 },
+    },
+    { tags: ["articles"] }
+  );
 };

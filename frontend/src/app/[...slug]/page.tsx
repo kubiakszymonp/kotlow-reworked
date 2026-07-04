@@ -1,49 +1,89 @@
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { DynamicComponent } from "@/api/service/dynamicZone/componentTypeInterfaces";
 import { getStaticPageBySlug } from "@/api/service/static-page";
-import { DynamicZone } from "@/components/dynamicZone";
-import Footer from "@/components/footer";
-import Navigation from "@/components/navigation/Navigation";
-import { cx } from "class-variance-authority";
-import { notFound } from "next/navigation";
-import styles from "./styles.module.scss";
 import { getListingBySlug } from "@/api/service/listing";
-import { ArticlesView } from "@/components/ArticlesView";
 import { getArticlesByQuery } from "@/api/service/articles";
-import Header from "@/components/atomic/header";
+import { DynamicZone } from "@/components/dynamicZone";
+import { ArticlesView } from "@/components/ArticlesView";
+import SectionHeading from "@/components/atomic/header";
+import { htmlToExcerpt } from "@/lib/utils";
 
-export const revalidate = 60;
 export const dynamic = "force-dynamic";
 
-export default async function StaticPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ slug: string }>;
+interface PageProps {
+  params: Promise<{ slug: string[] }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const { slug } = await params;
+}
+
+function resolveSlug(slugSegments: string[]): string {
+  return slugSegments.join("/");
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug: slugSegments } = await params;
+  const slug = resolveSlug(slugSegments);
+
+  const staticPage = await getStaticPageBySlug(slug);
+  const pageMatched = staticPage.data?.[0];
+
+  if (pageMatched) {
+    const components = (pageMatched.components ?? []) as DynamicComponent[];
+    const htmlComponent = components.find(
+      (component) => component.__component === "atomic.html-content"
+    );
+    const description = htmlToExcerpt(
+      htmlComponent && "content" in htmlComponent
+        ? htmlComponent.content
+        : undefined
+    );
+
+    return {
+      title: pageMatched.title,
+      description: description || undefined,
+      alternates: { canonical: `/${slug}` },
+      openGraph: { url: `/${slug}`, title: pageMatched.title },
+    };
+  }
+
+  const listing = await getListingBySlug(slug);
+  const listingMatched = listing.data?.[0];
+
+  if (listingMatched) {
+    return {
+      title: listingMatched.title,
+      description: `${listingMatched.title} — aktualne wpisy Parafii Rzymsko-katolickiej w Kotłowie.`,
+      alternates: { canonical: `/${slug}` },
+      openGraph: { url: `/${slug}`, title: listingMatched.title ?? undefined },
+    };
+  }
+
+  return {};
+}
+
+export default async function StaticPage({ params, searchParams }: PageProps) {
+  const { slug: slugSegments } = await params;
+  const slug = resolveSlug(slugSegments);
   const resolvedSearchParams = await searchParams;
 
   const staticPage = await getStaticPageBySlug(slug);
   const pageMatched = staticPage.data?.[0];
 
   if (pageMatched) {
+    const components = (pageMatched.components ?? []) as DynamicComponent[];
+    const hasCmsHeader = components.some(
+      (component) => component.__component === "atomic.header"
+    );
+
     return (
-      <div className={cx("min-h-screen")}>
-        {/* Navigation with blue background for subpages */}
-        <Navigation withBackground={true} />
-
-        {/* Main Content */}
-
-        <main className={cx(styles.wrapper)}>
-          <DynamicZone
-            components={pageMatched.components as DynamicComponent[]}
-          />
-        </main>
-
-        {/* Footer */}
-        <Footer />
-      </div>
+      <main className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-16">
+        {!hasCmsHeader && (
+          <SectionHeading title={pageMatched.title} level={1} className="mb-12" />
+        )}
+        <DynamicZone components={components} firstHeadingLevel={1} />
+      </main>
     );
   }
 
@@ -51,38 +91,31 @@ export default async function StaticPage({
   const listingMatched = listing.data?.[0];
 
   if (!listingMatched) {
-    return notFound();
+    notFound();
   }
 
-  const query = listingMatched.query;
-  const page = resolvedSearchParams.page || 1;
+  const requestedPage = Number(resolvedSearchParams.page);
+  const page =
+    Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1;
 
-  const articlesResponse = await getArticlesByQuery(query, Number(page));
+  const articlesResponse = await getArticlesByQuery(
+    listingMatched.query ?? {},
+    page
+  );
 
-  console.log("articlesResponse", articlesResponse);
-  const totalPages = articlesResponse.meta?.pagination?.pageCount || 0;
-  const currentPage = articlesResponse.meta?.pagination?.page || 0;
-  const articles = articlesResponse.data || [];
-  const loading = false;
+  const totalPages = articlesResponse.meta?.pagination?.pageCount ?? 0;
+  const currentPage = articlesResponse.meta?.pagination?.page ?? 1;
+  const articles = articlesResponse.data ?? [];
 
   return (
-    <div className={cx("min-h-screen")}>
-      {/* Navigation with blue background for subpages */}
-      <Navigation withBackground={true} />
-
-      {/* Main Content */}
-      <main className={cx(styles.wrapper)}>
-        <Header title={listingMatched.title} />
-        <ArticlesView
-          articles={articles}
-          totalPages={totalPages}
-          currentPage={currentPage}
-          loading={loading}
-        />
-      </main>
-
-      {/* Footer */}
-      <Footer />
-    </div>
+    <main className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-16">
+      <SectionHeading title={listingMatched.title} level={1} className="mb-12" />
+      <ArticlesView
+        articles={articles}
+        totalPages={totalPages}
+        currentPage={currentPage}
+        basePath={`/${slug}`}
+      />
+    </main>
   );
 }

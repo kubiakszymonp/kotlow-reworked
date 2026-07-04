@@ -1,27 +1,16 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  globalIgnores(["src/api/generated/**", ".next/**", "node_modules/**"]),
   {
     rules: {
-      // Wyłącz ostrzeżenia o nieużywanych eslint-disable
-      "eslint-comments/no-unused-disable": "off",
-      
-      // Wyłącz ostrzeżenia o nieużywanych wyrażeniach
-      "@typescript-eslint/no-unused-expressions": "off",
-    
-      "no-console": "warn", // Zmień z error na warn jeśli używasz console.log
+      "no-console": "warn",
     },
   },
-];
+]);
 
 export default eslintConfig;

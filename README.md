@@ -4,7 +4,7 @@ Aplikacja internetowa parafii w Kotłowie zbudowana w Next.js i Strapi 5.
 
 ## 🏗️ Architektura
 
-- **Frontend**: Next.js 14 z TypeScript i Tailwind CSS
+- **Frontend**: Next.js 16 z TypeScript i Tailwind CSS 4 (design system w `globals.css`; dane ze Strapi cachowane przez `fetch` z tagami, unieważnianie przez webhook `POST /api/revalidate`)
 - **Backend**: Strapi 5 (Headless CMS)
 - **Reverse Proxy**: Nginx z SSL
 - **Containerization**: Docker & Docker Compose
@@ -90,9 +90,10 @@ Strapi jest skonfigurowany z:
 Next.js jest skonfigurowany z:
 - Standalone output dla Docker
 - TypeScript
-- Tailwind CSS
-- SCSS modules
-- SEO optimization
+- Tailwind CSS 4 (tokeny w `src/app/globals.css`, bez SCSS)
+- Cache danych: `fetch` z `next.revalidate` + tagi (`articles`, `homepage`, `static-pages`, `listings`, `navigation`)
+- Webhook rewalidacji: `POST /api/revalidate` z nagłówkiem `Authorization: Bearer <REVALIDATE_SECRET>` (skonfiguruj w Strapi: Settings → Webhooks)
+- SEO: per-page `generateMetadata`, dynamiczny sitemap z CMS, JSON-LD (Church, Article)
 
 ## 🛠️ Komendy
 

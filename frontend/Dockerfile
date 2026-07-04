@@ -1,23 +1,28 @@
-# Use the official Node.js runtime as the base image
-FROM node:20-alpine AS base
-
+# Install dependencies
+FROM node:20-alpine AS deps
 WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
 
-# Configure yarn for better network handling
-RUN yarn config set network-timeout 600000 && \
-    yarn config set registry https://registry.npmjs.org/ && \
-    yarn config set network-concurrency 1
-
-COPY package.json yarn.lock .yarnrc ./
-RUN yarn install --network-timeout 600000 --verbose
-
+# Build the application
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN NODE_OPTIONS="--max_old_space_size=2048" npm run build
 
-RUN NODE_OPTIONS="--max_old_space_size=2048" yarn build
+# Production runner (standalone output)
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+ENV NEXT_TELEMETRY_DISABLED=1
+
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 3000
-ENV PORT 3000
-
-ENV HOSTNAME "0.0.0.0"
-
-CMD ["yarn", "start"] 
+CMD ["node", "server.js"]

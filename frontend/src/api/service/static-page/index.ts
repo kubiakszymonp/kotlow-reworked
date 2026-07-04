@@ -1,21 +1,28 @@
-import {
-  StaticPageListResponse,
-} from "@/api/generated";
-import { serverApiClient } from "@/lib/api-client";
+import { StaticPageListResponse } from "@/api/generated";
+import { strapiFetch } from "@/lib/strapi";
 
 export const getStaticPageBySlug = async (slug: string) => {
-  const queryParams = {
-    populate: "*",
-    filters: {
-      slug: {
-        $eq: slug,
+  return strapiFetch<StaticPageListResponse>(
+    "/static-pages",
+    {
+      populate: "*",
+      filters: {
+        slug: {
+          $eq: slug,
+        },
       },
     },
-  };
-
-  const response = await serverApiClient.get<StaticPageListResponse>(
-    "/static-pages",
-    queryParams
+    { tags: ["static-pages"] }
   );
-  return response.data;
+};
+
+export const getAllStaticPages = async () => {
+  return strapiFetch<StaticPageListResponse>(
+    "/static-pages",
+    {
+      fields: ["slug", "updatedAt"],
+      pagination: { pageSize: 100 },
+    },
+    { tags: ["static-pages"] }
+  );
 };

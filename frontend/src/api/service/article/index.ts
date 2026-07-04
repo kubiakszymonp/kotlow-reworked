@@ -1,19 +1,17 @@
 import { ArticleListResponse } from "@/api/generated";
-import { serverApiClient } from "@/lib/api-client";
+import { strapiFetch } from "@/lib/strapi";
 
 export const getArticleBySlug = async (slug: string) => {
-  const queryParams = {
-    populate: "*",
-    filters: {
-      slug: {
-        $eq: slug,
+  return strapiFetch<ArticleListResponse>(
+    "/articles",
+    {
+      populate: "*",
+      filters: {
+        slug: {
+          $eq: slug,
+        },
       },
     },
-  };
-
-  const response = await serverApiClient.get<ArticleListResponse>(
-    "/articles",
-    queryParams
+    { tags: ["articles"] }
   );
-  return response.data;
 };

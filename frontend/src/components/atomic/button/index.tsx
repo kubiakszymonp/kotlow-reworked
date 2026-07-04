@@ -1,42 +1,29 @@
-import React from 'react';
-import Link from 'next/link';
-import styles from './styles.module.scss';
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { normalizeHref } from "@/lib/utils";
 
 interface ButtonProps {
   text?: string;
   link?: string;
-  variant?: 'primary' | 'secondary' | 'outline';
-  size?: 'small' | 'medium' | 'large';
-  onClick?: () => void;
 }
 
-export default function Button({ 
-  text, 
-  link, 
-  variant = 'primary', 
-  size = 'medium',
-  onClick 
-}: ButtonProps) {
-  const buttonClass = `${styles.button} ${styles[variant]} ${styles[size]}`;
-
-  const buttonContent = (
-    <span className={styles.content}>
-      {text}
-      <span className={styles.arrow}>→</span>
-    </span>
-  );
-
-  if (link) {
-    return (
-      <Link href={link} className={buttonClass}>
-        {buttonContent}
-      </Link>
-    );
+export default function Button({ text, link }: ButtonProps) {
+  if (!text) {
+    return null;
   }
 
   return (
-    <button className={buttonClass} onClick={onClick} type="button">
-      {buttonContent}
-    </button>
+    <div className="flex justify-center">
+      <Link
+        href={normalizeHref(link)}
+        className="group inline-flex items-center gap-2 rounded-full bg-navy-800 px-7 py-3 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-navy-700"
+      >
+        {text}
+        <ArrowRight
+          aria-hidden
+          className="size-4 transition-transform group-hover:translate-x-1"
+        />
+      </Link>
+    </div>
   );
 }

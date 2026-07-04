@@ -6,9 +6,12 @@ export default [
     name: 'strapi::cors',
     config: {
       enabled: true,
-      headers: '*',
-      origin: '*',
-      credentials: true,
+      headers: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
+      origin: [
+        'https://sanktuariumkotlow.pl',
+        'https://admin.sanktuariumkotlow.pl',
+        'http://localhost:3000',
+      ],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
     }
   },

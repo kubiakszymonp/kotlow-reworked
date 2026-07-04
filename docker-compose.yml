@@ -10,9 +10,12 @@ services:
       - "127.0.0.1:3000:3000"  # Bind only to localhost for security
     environment:
       NODE_ENV: production
+      # Used by src/lib/strapi.ts to resolve the in-network Strapi URL
       DATABASE_HOST: backend
       DATABASE_PORT: 1337
       STRAPI_API_TOKEN: ${STRAPI_API_TOKEN:-}
+      # Secret for the Strapi webhook hitting POST /api/revalidate
+      REVALIDATE_SECRET: ${REVALIDATE_SECRET:-}
     networks:
       - app-network
     depends_on:

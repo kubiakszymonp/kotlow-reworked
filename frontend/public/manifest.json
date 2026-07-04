@@ -4,8 +4,8 @@
   "description": "Oficjalna strona Parafii Rzymsko-katolickiej w Kotłowie. Msze święte, sakramenty, ogłoszenia, intencje mszalne.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#8B4513",
+  "background_color": "#faf9f6",
+  "theme_color": "#264663",
   "orientation": "portrait-primary",
   "categories": ["religion", "church", "community"],
   "lang": "pl",
@@ -13,13 +13,13 @@
   "scope": "/",
   "icons": [
     {
-      "src": "/church.png",
+      "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/church.png",
+      "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -31,14 +31,14 @@
       "short_name": "Ogłoszenia",
       "description": "Aktualne ogłoszenia parafialne",
       "url": "/ogloszenia",
-      "icons": [{ "src": "/church.png", "sizes": "96x96" }]
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Intencje",
       "short_name": "Intencje",
       "description": "Intencje mszalne",
-      "url": "intencje",
-      "icons": [{ "src": "/church.png", "sizes": "96x96" }]
+      "url": "/intencje",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

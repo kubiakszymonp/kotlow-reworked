@@ -1,28 +1,19 @@
-import VideoHero from "@/components/video-hero";
-import Footer from "@/components/footer";
 import { Metadata } from "next";
-import Navigation from "@/components/navigation/Navigation";
+import VideoHero from "@/components/video-hero";
+import QuickLinks from "@/components/home/QuickLinks";
+import ContactBand from "@/components/home/ContactBand";
 import { getHomepage } from "@/api/service/homepage";
 import { DynamicZone } from "@/components/dynamicZone";
 import { DynamicComponent } from "@/api/service/dynamicZone/componentTypeInterfaces";
-import styles from "./styles.module.scss";
 
-export const revalidate = 60;
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Sanktuarium Kotłów | Parafia Rzymsko-katolicka w Kotłowie",
-  description:
-    "Oficjalna strona Parafii Rzymsko-katolickiej w Kotłowie. Sanktuarium, msze święte, sakramenty, ogłoszenia parafialne, intencje mszalne, grupy parafialne, historia parafii Kotłów.",
-  keywords:
-    "Kotłów, parafia Kotłów, sanktuarium, msze święte, sakramenty, ogłoszenia parafialne, diecezja kaliska",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "Sanktuarium Kotłów | Parafia Rzymsko-katolicka",
-    description:
-      "Oficjalna strona Parafii Rzymsko-katolickiej w Kotłowie. Msze święte, sakramenty, ogłoszenia parafialne.",
-    type: "website",
-    locale: "pl_PL",
-    images: ["/obraz.jpg"],
+    url: "/",
   },
 };
 
@@ -30,22 +21,19 @@ export default async function Home() {
   const homepage = await getHomepage();
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section with Video Background */}
-      <header className="relative">
-        <Navigation />
-        <VideoHero />
-      </header>
+    <main>
+      <VideoHero />
 
-      {/* Main Content */}
-      <main className={styles.container}>
+      <QuickLinks />
+
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20">
         <DynamicZone
           components={homepage.data?.components as DynamicComponent[]}
+          firstHeadingLevel={2}
         />
-      </main>
+      </div>
 
-      {/* Footer */}
-      <Footer />
-    </div>
+      <ContactBand />
+    </main>
   );
 }
