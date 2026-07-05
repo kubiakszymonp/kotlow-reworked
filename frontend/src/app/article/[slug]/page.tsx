@@ -4,13 +4,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CalendarDays } from "lucide-react";
 import { getArticleBySlug } from "@/api/service/article";
-import { ARTICLE_TYPE_LABELS } from "@/components/ArticleCard";
 import HtmlContent from "@/components/atomic/html-content";
+import ShareBar from "@/components/article/ShareBar";
+import BackToTop from "@/components/BackToTop";
 import { formatDate, htmlToExcerpt } from "@/lib/utils";
+import { SITE_URL } from "@/lib/parish";
+import { openGraph } from "@/lib/seo";
+import { articleTypeMeta } from "@/lib/articles";
+import { jsonLdScript } from "@/lib/jsonLd";
 
-export const dynamic = "force-dynamic";
-
-const SITE_URL = "https://sanktuariumkotlow.pl";
+// ISR: article HTML is cached and refreshed via Strapi webhook (revalidateTag).
+export const revalidate = 120;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -32,16 +36,23 @@ export async function generateMetadata({
     title: article.title,
     description: description || undefined,
     alternates: { canonical: `/article/${slug}` },
-    openGraph: {
+    openGraph: openGraph({
       type: "article",
       url: `/article/${slug}`,
       title: article.title,
       description: description || undefined,
-      images: article.thumbnail?.url ? [article.thumbnail.url] : undefined,
+      // Only override images when the article has a thumbnail; otherwise leave
+      // the base site OG image (spreading `undefined` would wipe it).
+      ...(article.thumbnail?.url
+        ? { images: [article.thumbnail.url] }
+        : {}),
       publishedTime: article.publishedAt
         ? new Date(article.publishedAt).toISOString()
         : undefined,
-    },
+      modifiedTime: article.updatedAt
+        ? new Date(article.updatedAt).toISOString()
+        : undefined,
+    }),
   };
 }
 
@@ -53,52 +64,81 @@ export default async function ArticlePage({ params }: PageProps) {
     notFound();
   }
 
-  const typeLabel = ARTICLE_TYPE_LABELS[article.articleType] ?? "";
-  const showDate = article.articleType !== "sakrament";
-  const dateLabel = showDate
-    ? formatDate(article.publishedAt ?? article.createdAt)
-    : "";
+  const { label: typeLabel, listingPath, dateless } = articleTypeMeta(
+    article.articleType
+  );
+  const dateLabel = dateless
+    ? ""
+    : formatDate(article.publishedAt ?? article.createdAt);
+  const description = htmlToExcerpt(article.content);
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: article.title,
-    datePublished: article.publishedAt
-      ? new Date(article.publishedAt).toISOString()
-      : undefined,
-    dateModified: article.updatedAt
-      ? new Date(article.updatedAt).toISOString()
-      : undefined,
-    image: article.thumbnail?.url
-      ? [`${SITE_URL}${article.thumbnail.url}`]
-      : undefined,
-    author: {
-      "@type": "Organization",
-      name: "Parafia Rzymsko-katolicka w Kotłowie",
-    },
-    publisher: { "@id": `${SITE_URL}/#church` },
-    mainEntityOfPage: `${SITE_URL}/article/${slug}`,
-    inLanguage: "pl-PL",
+    "@graph": [
+      {
+        "@type":
+          article.articleType === "ogloszenia_duszpasterskie"
+            ? "NewsArticle"
+            : "Article",
+        headline: article.title,
+        description: description || undefined,
+        datePublished: article.publishedAt
+          ? new Date(article.publishedAt).toISOString()
+          : undefined,
+        dateModified: article.updatedAt
+          ? new Date(article.updatedAt).toISOString()
+          : undefined,
+        image: article.thumbnail?.url
+          ? [`${SITE_URL}${article.thumbnail.url}`]
+          : [`${SITE_URL}/og-image.jpg`],
+        author: { "@id": `${SITE_URL}/#church` },
+        publisher: { "@id": `${SITE_URL}/#church` },
+        mainEntityOfPage: `${SITE_URL}/article/${slug}`,
+        inLanguage: "pl-PL",
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Strona główna",
+            item: SITE_URL,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: typeLabel || "Aktualności",
+            item: `${SITE_URL}${listingPath}`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: article.title,
+          },
+        ],
+      },
+    ],
   };
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-16">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
 
       <Link
-        href="/ogloszenia"
-        className="inline-flex items-center gap-1.5 text-sm font-semibold text-navy-700 transition-colors hover:text-gold-600"
+        href={listingPath}
+        className="inline-flex items-center gap-1.5 text-sm font-semibold text-navy-700 transition-colors hover:text-gold-700"
       >
         <ArrowLeft aria-hidden className="size-4" />
-        Wróć do aktualności
+        Wróć do listy
       </Link>
 
       <header className="mt-8">
         {typeLabel && (
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-gold-700">
             {typeLabel}
           </p>
         )}
@@ -130,6 +170,12 @@ export default async function ArticlePage({ params }: PageProps) {
       <div className="mt-10">
         <HtmlContent content={article.content} />
       </div>
+
+      <div className="mt-12 border-t border-border pt-6">
+        <ShareBar url={`${SITE_URL}/article/${slug}`} title={article.title ?? ""} />
+      </div>
+
+      <BackToTop />
     </main>
   );
 }

@@ -2,23 +2,29 @@ import { MetadataRoute } from "next";
 import { getAllArticleSlugs } from "@/api/service/articles";
 import { getAllStaticPages } from "@/api/service/static-page";
 import { getAllListings } from "@/api/service/listing";
-
-const BASE_URL = "https://sanktuariumkotlow.pl";
+import { SITE_URL as BASE_URL } from "@/lib/parish";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const entries: MetadataRoute.Sitemap = [
-    {
-      url: BASE_URL,
-      changeFrequency: "weekly",
-      priority: 1.0,
-    },
-  ];
-
   const [articles, staticPages, listings] = await Promise.allSettled([
     getAllArticleSlugs(),
     getAllStaticPages(),
     getAllListings(),
   ]);
+
+  // Homepage lastModified tracks the newest article so crawlers see freshness.
+  const newestArticle =
+    articles.status === "fulfilled"
+      ? articles.value.data?.[0]?.updatedAt
+      : undefined;
+
+  const entries: MetadataRoute.Sitemap = [
+    {
+      url: BASE_URL,
+      lastModified: newestArticle,
+      changeFrequency: "weekly",
+      priority: 1.0,
+    },
+  ];
 
   if (staticPages.status === "fulfilled") {
     for (const page of staticPages.value.data ?? []) {

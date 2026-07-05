@@ -42,9 +42,26 @@ export async function GET(
 ) {
   const { slug } = await params;
 
+  // Reject path-traversal / injection: upload names are flat, hashed filenames.
+  // `..`, backslashes or encoded slashes could escape /uploads and let the
+  // proxy reach arbitrary internal Strapi endpoints (SSRF).
+  const unsafe = slug.some(
+    (segment) =>
+      segment === ".." ||
+      segment.includes("/") ||
+      segment.includes("\\") ||
+      segment.includes("\0") ||
+      /%2e%2e|%2f|%5c/i.test(segment)
+  );
+  if (unsafe) {
+    return NextResponse.json({ error: "Invalid path" }, { status: 400 });
+  }
+
   try {
     const url = new URL(request.url);
-    const targetUrl = `${getStrapiUploadsBaseUrl()}/uploads/${slug.join("/")}${url.search}`;
+    const targetUrl = `${getStrapiUploadsBaseUrl()}/uploads/${slug
+      .map(encodeURIComponent)
+      .join("/")}${url.search}`;
 
     const headers: Record<string, string> = {};
     FORWARDED_REQUEST_HEADERS.forEach((header) => {

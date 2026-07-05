@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Facebook, Landmark, Phone } from "lucide-react";
+import { Facebook, Landmark, Mail, MapPin, Phone, Rss } from "lucide-react";
 import type { NavItem } from "@/components/site-header/SiteHeader";
+import { PARISH } from "@/lib/parish";
 
 const PARTNER_LINKS = [
   {
@@ -31,7 +32,7 @@ export default function Footer({ items = [] }: FooterProps) {
   );
 
   return (
-    <footer className="bg-navy-950 text-navy-100">
+    <footer className="bg-navy-950 text-navy-100 print:hidden">
       <div className="h-px bg-gradient-to-r from-transparent via-gold-500/70 to-transparent" />
 
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-3">
@@ -47,16 +48,42 @@ export default function Footer({ items = [] }: FooterProps) {
           <ul className="mt-6 space-y-3 text-sm">
             <li>
               <a
-                href="tel:+48573791098"
-                className="group inline-flex items-center gap-3 transition-colors hover:text-gold-300"
+                href={PARISH.mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-start gap-3 transition-colors hover:text-gold-300"
               >
-                <Phone aria-hidden className="size-4 text-gold-400" />
-                573 791 098
+                <MapPin aria-hidden className="mt-0.5 size-4 shrink-0 text-gold-400" />
+                <span>
+                  {PARISH.address.full}
+                  <br />
+                  <span className="text-xs text-navy-300">
+                    Pokaż na mapie — jak dojechać
+                  </span>
+                </span>
               </a>
             </li>
             <li>
               <a
-                href="https://facebook.com/ParafiaKotlow"
+                href={PARISH.phoneHref}
+                className="group inline-flex items-center gap-3 transition-colors hover:text-gold-300"
+              >
+                <Phone aria-hidden className="size-4 text-gold-400" />
+                {PARISH.phoneDisplay}
+              </a>
+            </li>
+            <li>
+              <a
+                href={PARISH.emailHref}
+                className="group inline-flex items-center gap-3 transition-colors hover:text-gold-300"
+              >
+                <Mail aria-hidden className="size-4 text-gold-400" />
+                {PARISH.email}
+              </a>
+            </li>
+            <li>
+              <a
+                href={PARISH.facebookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-3 transition-colors hover:text-gold-300"
@@ -84,6 +111,15 @@ export default function Footer({ items = [] }: FooterProps) {
                 </Link>
               </li>
             ))}
+            <li>
+              <a
+                href="/feed.xml"
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-gold-300"
+              >
+                <Rss aria-hidden className="size-3.5 text-gold-400" />
+                Kanał RSS
+              </a>
+            </li>
           </ul>
         </nav>
 
@@ -98,7 +134,7 @@ export default function Footer({ items = [] }: FooterProps) {
               Numer konta parafii:
               <br />
               <span className="font-semibold text-white">
-                52 9256 0004 0082 1416 2000 0040
+                {PARISH.bankAccount}
               </span>
             </span>
           </p>

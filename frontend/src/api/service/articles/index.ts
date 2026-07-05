@@ -36,13 +36,42 @@ export const getLatestArticlesByType = async (
 };
 
 export const getAllArticleSlugs = async () => {
-  return strapiFetch<ArticleListResponse>(
+  const pageSize = 100;
+  const first = await strapiFetch<ArticleListResponse>(
     "/articles",
     {
       fields: ["slug", "updatedAt"],
       sort: ["createdAt:desc"],
-      pagination: { pageSize: 200 },
+      pagination: { page: 1, pageSize },
     },
     { tags: ["articles"] }
   );
+
+  const pageCount = first.meta?.pagination?.pageCount ?? 1;
+  if (pageCount <= 1) {
+    return first;
+  }
+
+  // Fetch the remaining pages so the sitemap never silently truncates.
+  const rest = await Promise.all(
+    Array.from({ length: pageCount - 1 }, (_, i) =>
+      strapiFetch<ArticleListResponse>(
+        "/articles",
+        {
+          fields: ["slug", "updatedAt"],
+          sort: ["createdAt:desc"],
+          pagination: { page: i + 2, pageSize },
+        },
+        { tags: ["articles"] }
+      )
+    )
+  );
+
+  return {
+    ...first,
+    data: [
+      ...(first.data ?? []),
+      ...rest.flatMap((response) => response.data ?? []),
+    ],
+  };
 };

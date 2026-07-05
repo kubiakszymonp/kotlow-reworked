@@ -3,25 +3,17 @@ import Link from "next/link";
 import { ArrowRight, CalendarDays } from "lucide-react";
 import { Article } from "@/api/generated";
 import { formatDate } from "@/lib/utils";
-
-export const ARTICLE_TYPE_LABELS: Record<string, string> = {
-  ogloszenia_duszpasterskie: "Ogłoszenia",
-  intencje_mszalne: "Intencje mszalne",
-  artykul: "Aktualności",
-  sakrament: "Sakrament",
-};
-
-/** Evergreen types where a publish date would be misleading noise. */
-const DATELESS_TYPES = new Set(["sakrament"]);
+import { articleTypeMeta } from "@/lib/articles";
 
 interface ArticleCardProps {
   article: Article;
 }
 
 export function ArticleCard({ article }: ArticleCardProps) {
+  const hasThumbnail = Boolean(article.thumbnail?.url);
   const thumbnailUrl = article.thumbnail?.url || "/article-placeholder.jpg";
-  const typeLabel = ARTICLE_TYPE_LABELS[article.articleType] ?? "";
-  const dateLabel = DATELESS_TYPES.has(article.articleType)
+  const { label: typeLabel, dateless } = articleTypeMeta(article.articleType);
+  const dateLabel = dateless
     ? ""
     : formatDate(article.publishedAt ?? article.createdAt);
 
@@ -30,7 +22,11 @@ export function ArticleCard({ article }: ArticleCardProps) {
       <div className="relative aspect-[8/5] overflow-hidden">
         <Image
           src={thumbnailUrl}
-          alt={article.title ?? ""}
+          alt={
+            hasThumbnail
+              ? article.thumbnail?.alternativeText || article.title || ""
+              : ""
+          }
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -59,7 +55,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           </Link>
         </h3>
 
-        <span className="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-semibold text-navy-700 transition-colors group-hover:text-gold-600">
+        <span className="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-semibold text-navy-700 transition-colors group-hover:text-gold-700">
           Czytaj więcej
           <ArrowRight
             aria-hidden

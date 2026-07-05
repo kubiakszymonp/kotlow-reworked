@@ -1,4 +1,5 @@
-import { Facebook, Phone } from "lucide-react";
+import { Facebook, Mail, Phone } from "lucide-react";
+import { PARISH } from "@/lib/parish";
 
 export default function ContactBand() {
   return (
@@ -26,22 +27,33 @@ export default function ContactBand() {
 
         <div className="flex flex-wrap items-center justify-center gap-4">
           <a
-            href="tel:+48573791098"
+            href={PARISH.phoneHref}
             className="inline-flex items-center gap-2.5 rounded-full bg-gold-500 px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-navy-950 transition-colors hover:bg-gold-400"
           >
             <Phone aria-hidden className="size-4" />
-            573 791 098
+            {PARISH.phoneDisplay}
           </a>
           <a
-            href="https://facebook.com/ParafiaKotlow"
+            href={PARISH.emailHref}
+            className="inline-flex items-center gap-2.5 rounded-full border border-white/30 px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:border-gold-300 hover:text-gold-300"
+          >
+            <Mail aria-hidden className="size-4" />
+            {PARISH.email}
+          </a>
+          <a
+            href={PARISH.facebookUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2.5 rounded-full border border-white/30 px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:border-gold-300 hover:text-gold-300"
           >
             <Facebook aria-hidden className="size-4" />
-            Parafia Kotłów
+            {PARISH.facebookLabel}
           </a>
         </div>
+
+        <p className="text-sm text-navy-300">
+          {PARISH.address.full} · {PARISH.deanery}, {PARISH.diocese}
+        </p>
       </div>
     </section>
   );

@@ -39,6 +39,7 @@ export async function POST(request: NextRequest) {
   }
 
   const tags = (model && MODEL_TAGS[model]) || ALL_TAGS;
+  // Next 16 requires a cache-life profile; "max" evicts the tag immediately.
   tags.forEach((tag) => revalidateTag(tag, "max"));
 
   return NextResponse.json({ revalidated: tags });

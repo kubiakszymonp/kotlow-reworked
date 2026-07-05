@@ -123,7 +123,7 @@
   }
 
   .prose-parish a:hover {
-    color: var(--color-gold-600);
+    color: var(--color-gold-700);
   }
 
   .prose-parish ul,
@@ -223,5 +223,29 @@
   .prose-parish b {
     font-weight: 700;
     color: var(--color-navy-900);
+  }
+}
+
+/* Print: drop chrome, print black-on-white for legible ogłoszenia/intencje. */
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  main {
+    max-width: none;
+    padding: 0;
+  }
+
+  .prose-parish {
+    color: #000;
+    font-size: 12pt;
+  }
+
+  .prose-parish a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #555;
   }
 }

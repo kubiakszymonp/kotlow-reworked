@@ -46,7 +46,7 @@ export default function Card({
           </p>
         )}
         {linkText && linkUrl && (
-          <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-navy-700 transition-colors group-hover:text-gold-600">
+          <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-navy-700 transition-colors group-hover:text-gold-700">
             {linkText}
             <ArrowRight
               aria-hidden

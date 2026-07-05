@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import HeroVideo from "./HeroVideo";
@@ -5,13 +6,16 @@ import HeroVideo from "./HeroVideo";
 export default function VideoHero() {
   return (
     <section className="relative flex h-[92svh] min-h-[560px] w-full items-end overflow-hidden bg-navy-950">
-      {/* Static fallback (also shown when the user prefers reduced motion) */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      {/* LCP image + static fallback (also shown under reduced motion / on
+          mobile where the video is skipped). priority = eager LCP fetch. */}
+      <Image
         src="/obraz.jpg"
         alt=""
         aria-hidden
-        className="absolute inset-0 size-full object-cover"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
       />
       <HeroVideo />
 

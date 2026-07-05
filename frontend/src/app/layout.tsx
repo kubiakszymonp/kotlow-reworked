@@ -5,6 +5,9 @@ import { getNavigation } from "@/api/service/navigation";
 import SiteHeader, { NavItem } from "@/components/site-header/SiteHeader";
 import Footer from "@/components/footer/Footer";
 import { normalizeHref } from "@/lib/utils";
+import { PARISH, SITE_URL } from "@/lib/parish";
+import { OG_BASE } from "@/lib/seo";
+import { jsonLdScript } from "@/lib/jsonLd";
 
 const mulish = Mulish({
   subsets: ["latin", "latin-ext"],
@@ -15,12 +18,11 @@ const mulish = Mulish({
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin", "latin-ext"],
-  weight: ["500", "600", "700"],
+  // Only 600 is used (all display headings are font-semibold).
+  weight: ["600"],
   variable: "--font-cormorant",
   display: "swap",
 });
-
-const SITE_URL = "https://sanktuariumkotlow.pl";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -35,18 +37,16 @@ export const metadata: Metadata = {
     email: false,
     address: false,
   },
+  alternates: {
+    types: {
+      "application/rss+xml": [
+        { url: "/feed.xml", title: "Sanktuarium Kotłów — aktualności" },
+      ],
+    },
+  },
   openGraph: {
-    siteName: "Sanktuarium Kotłów",
-    locale: "pl_PL",
+    ...OG_BASE,
     type: "website",
-    images: [
-      {
-        url: "/obraz.jpg",
-        width: 979,
-        height: 980,
-        alt: "Sanktuarium w Kotłowie",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -63,7 +63,10 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [{ url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
+    icon: [
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
     apple: "/apple-touch-icon.png",
   },
   manifest: "/manifest.json",
@@ -80,19 +83,24 @@ const jsonLd = {
     {
       "@type": "Church",
       "@id": `${SITE_URL}/#church`,
-      name: "Parafia Rzymsko-katolicka w Kotłowie",
-      alternateName: "Sanktuarium Kotłów",
+      name: PARISH.name,
+      alternateName: PARISH.shortName,
       description:
         "Parafia Rzymsko-katolicka w Kotłowie — sanktuarium, msze święte, sakramenty, ogłoszenia parafialne",
       url: SITE_URL,
-      telephone: "+48573791098",
-      image: `${SITE_URL}/obraz.jpg`,
+      telephone: PARISH.phoneE164,
+      email: PARISH.email,
+      image: `${SITE_URL}/og-image.jpg`,
       address: {
         "@type": "PostalAddress",
-        addressLocality: "Kotłów",
-        addressCountry: "PL",
+        streetAddress: PARISH.address.street,
+        postalCode: PARISH.address.postalCode,
+        addressLocality: PARISH.address.locality,
+        addressRegion: PARISH.address.region,
+        addressCountry: PARISH.address.country,
       },
-      sameAs: ["https://facebook.com/ParafiaKotlow"],
+      hasMap: PARISH.mapUrl,
+      sameAs: [PARISH.facebookUrl],
       parentOrganization: {
         "@type": "Organization",
         name: "Diecezja Kaliska",
@@ -140,13 +148,21 @@ export default async function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
         />
       </head>
       <body className={`${mulish.variable} ${cormorant.variable} font-sans`}>
+        <a
+          href="#tresc"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-navy-900 focus:px-4 focus:py-2 focus:text-white"
+        >
+          Przejdź do treści
+        </a>
         <SiteHeader items={navItems} />
         <div className="flex min-h-screen flex-col">
-          <div className="flex-1">{children}</div>
+          <div id="tresc" tabIndex={-1} className="flex-1 outline-none">
+            {children}
+          </div>
           <Footer items={navItems} />
         </div>
       </body>

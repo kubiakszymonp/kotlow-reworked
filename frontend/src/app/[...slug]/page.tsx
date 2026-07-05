@@ -8,8 +8,11 @@ import { DynamicZone } from "@/components/dynamicZone";
 import { ArticlesView } from "@/components/ArticlesView";
 import SectionHeading from "@/components/atomic/header";
 import { htmlToExcerpt } from "@/lib/utils";
+import { openGraph } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
+// ISR: CMS pages/listings are cached and refreshed via Strapi webhook. Static
+// pages prerender fully; listings stay dynamic only because they read ?page=.
+export const revalidate = 120;
 
 interface PageProps {
   params: Promise<{ slug: string[] }>;
@@ -20,8 +23,15 @@ function resolveSlug(slugSegments: string[]): string {
   return slugSegments.join("/");
 }
 
+/** Coerce a `?page=` query value to a positive page number (defaults to 1). */
+function parsePage(value: string | string[] | undefined): number {
+  const page = Number(Array.isArray(value) ? value[0] : value);
+  return Number.isFinite(page) && page > 0 ? page : 1;
+}
+
 export async function generateMetadata({
   params,
+  searchParams,
 }: PageProps): Promise<Metadata> {
   const { slug: slugSegments } = await params;
   const slug = resolveSlug(slugSegments);
@@ -44,7 +54,7 @@ export async function generateMetadata({
       title: pageMatched.title,
       description: description || undefined,
       alternates: { canonical: `/${slug}` },
-      openGraph: { url: `/${slug}`, title: pageMatched.title },
+      openGraph: openGraph({ url: `/${slug}`, title: pageMatched.title }),
     };
   }
 
@@ -52,11 +62,19 @@ export async function generateMetadata({
   const listingMatched = listing.data?.[0];
 
   if (listingMatched) {
+    // Self-referencing canonical on paginated pages (Google's pagination
+    // guidance): /ogloszenia?page=3 must not canonicalize to page 1.
+    const page = parsePage((await searchParams).page);
+    const canonical = page > 1 ? `/${slug}?page=${page}` : `/${slug}`;
+
     return {
       title: listingMatched.title,
       description: `${listingMatched.title} — aktualne wpisy Parafii Rzymsko-katolickiej w Kotłowie.`,
-      alternates: { canonical: `/${slug}` },
-      openGraph: { url: `/${slug}`, title: listingMatched.title ?? undefined },
+      alternates: { canonical },
+      openGraph: openGraph({
+        url: canonical,
+        title: listingMatched.title ?? undefined,
+      }),
     };
   }
 
@@ -66,7 +84,6 @@ export async function generateMetadata({
 export default async function StaticPage({ params, searchParams }: PageProps) {
   const { slug: slugSegments } = await params;
   const slug = resolveSlug(slugSegments);
-  const resolvedSearchParams = await searchParams;
 
   const staticPage = await getStaticPageBySlug(slug);
   const pageMatched = staticPage.data?.[0];
@@ -94,9 +111,9 @@ export default async function StaticPage({ params, searchParams }: PageProps) {
     notFound();
   }
 
-  const requestedPage = Number(resolvedSearchParams.page);
-  const page =
-    Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+  // Only listings read the query string, so awaiting searchParams here (not at
+  // the top) keeps static pages statically prerenderable.
+  const page = parsePage((await searchParams).page);
 
   const articlesResponse = await getArticlesByQuery(
     listingMatched.query ?? {},
